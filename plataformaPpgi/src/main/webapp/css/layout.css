@@ -1,0 +1,54 @@
+@CHARSET "ISO-8859-1";
+
+.ui-menu {
+	background: #009fe6 !important;
+	color: white !important;
+	border: 0px !important;
+	border-radius: 0px !important;
+}
+
+.ui-menu-child {
+	background: #009fe6 !important;
+	width: 21em !important;
+}
+
+.ui-menuitem-text {
+	color: white !important;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+ .ui-menu .ui-state-hover {
+	background: #153f71 !important;
+}
+
+.ui-icon {
+	color: white !important;
+	font-size: 12px;
+}
+
+.noBorders tr, .noBorders td {
+    background: none !important;
+    border: none !important;
+}
+
+
+.ui-tabs {
+	background: none !important;
+	border: 1px !important;
+}
+.ui-tabs-nav{
+	background: none !important;
+	border: 1px !important;
+	border-bottom: 1px solid #2e6e9e !important;
+	border-radius: 0px !important;
+	
+}
+
+
+.ui-tabs .ui-state-active a{
+	background: #2e6e9e !important;
+	color: #fff !important;
+	border-top-left-radius: 3px !important;
+	border-top-right-radius: 3px !important;	
+}

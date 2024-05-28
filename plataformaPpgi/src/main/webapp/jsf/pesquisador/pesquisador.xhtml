@@ -1,0 +1,42 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+	<ui:define name="conteudo">
+		<h:form id="formDados">
+       		<div class="ui-fluid" style="padding: 90px;">
+		        <p:panel id="dadosPesquisador" header="Pesquisador">
+					<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-3">
+					    <p:column>
+						    <h:outputText value="Nome do Pesquisador:"/>
+						    <p:inputText label="nomeAluno" required="true"
+						    requiredMessage="Informe o nome do pesquisador." converter="#{trimStringConverter}"/>
+						</p:column>
+						<p:column>
+					       	<h:outputText value="CPF:"/>
+						    <p:inputMask mask="999.999.999-99" id="numeroCpf"
+						  		  label="Número do CPF" converter="#{trimStringConverter}"
+						  		  required="true" requiredMessage="Informe o número do CPF."/>
+					    </p:column>
+						<p:column>
+					        <h:outputText value="Data de início:"/>
+					        <p:calendar locale="pt_BR" pattern="dd/MM/yyyy"
+								mask="true" navigator="true"/>
+				       	</p:column>
+				    </p:panelGrid>
+				    <p:separator/>
+				    <p:growl id="mensagemSalvarPesquisador" showDetail="true">
+				      	<p:autoUpdate />
+				    </p:growl>
+				    <div class="ui-fluid" align="center">
+			          	  <p:commandButton id="pesdquisadorSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px"/>
+			          	  <p:commandButton id="pesquisadorCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px"/>
+			         </div>
+				</p:panel>
+			</div>
+		</h:form>
+	</ui:define>  
+</ui:composition>

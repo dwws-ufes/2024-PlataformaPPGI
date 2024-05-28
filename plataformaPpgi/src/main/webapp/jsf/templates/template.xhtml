@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"  
+      xmlns:p="http://primefaces.org/ui">
+      
+<f:view contentType="text/html">
+<h:head>
+	<title>Plataforma PPGI</title>
+	
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/principal.css" />
+    <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/layout.css" />
+    <h:outputScript library="js" name="locale.js"/> 
+</h:head>	
+<h:body>
+	<div class="grid flex-column">
+        <div class="col">
+            <div class="box" style="position: fixed; width: 100%; top: 0%; z-index: 9;">
+            	<p:graphicImage value="/design/imagens/ufes-ppgi.png" width="101px" style="float:left;"/>
+	   		<div align="center" style="background: linear-gradient(#153f71, #009fe6);">
+		   		<font style="font-family: Verdana, sans-serif; color: white; font-size: 20px;">
+		   			Programa de Pós-graduação em Informática 
+		   			<br/>
+		   			Plataforma PPGI
+		   		</font>
+	       	</div>
+	       	<ui:include src="menu.xhtml"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="box" style="padding: 0px;">
+            	<ui:insert name="conteudo" />
+	 		    <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+				<p:dialog widgetVar="statusDialog" header="Carregando..."   
+				        draggable="false" resizable="false" closable="false">
+				    <center>  
+				    	<p:graphicImage value="/design/gifs/ajaxloader.gif"/>
+				    </center>  
+				</p:dialog>
+            </div>
+        </div>
+        <div class="col">
+            <div class="box">
+            	<div align="center" 
+		   		style="background: linear-gradient(#153f71, #009fe6); position: fixed; width: 100%; bottom: 0%;">
+			   		<font style="font-family: Verdana, 
+			   		sans-serif; color: white;">
+			   			Alex Costa de Souza - Murilo Marchette - 2024/1
+			   		</font>
+		       	</div>
+            </div>
+        </div>
+    </div>	
+</h:body>
+</f:view>
+</html>

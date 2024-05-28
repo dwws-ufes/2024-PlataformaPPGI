@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:p="http://primefaces.org/ui"> 
+      
+<h:head>  
+	<title>Portal Acadêmico</title>
+	
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/principal.css" />
+
+    <style type="text/css">
+           .ui-layout-north {
+                 z-index:20 !important;
+                 overflow:visible !important;;
+            }
+
+          .ui-layout-north .ui-layout-unit-content {
+                overflow:visible !important;
+           }
+    </style>  
+</h:head>  
+<h:body style="background-color: #fbefef">
+	<h:form id="login">
+		<p:growl id="mensagem" showDetail="true" />
+		<p:panel header="Sistema Acadêmico" style="text-align:center;width:500px;
+		position:absolute;left:50%;top:50%;margin-left:-250px;margin-top:-125px;" >
+		<p:focus context="login"/>
+				<p:graphicImage value="/design/imagens/logoufeslogin.png" 
+	   			width="300px"/>
+	   			<center>
+	   				<h:panelGrid columns="2" cellpadding="1" style="text-align:left">
+						<h:outputLabel value="Usuário:"/>
+						<p:inputText value="#{usuarioController.usuario.login}" /> 
+						
+						<h:outputLabel value="Senha:"/>
+						<p:password value="#{usuarioController.usuario.senha}" autocomplete="off" />
+					
+						<h:outputLabel value=""/>
+						<b><a href="https://senha.ufes.br/site/recuperaCredenciais" target="blank_">Esqueci/Não Recebi a senha</a></b>							
+					</h:panelGrid>
+					<p:commandButton value="Login" action="#{usuarioController.efetuarLogin}" ajax="false" update="mensagem"/>	   				
+				</center>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog header="Escolher Perfil Acadêmico" id="dialog-edicao-orientacao"
+						widgetVar="dialog-escolher-grad-ou-pos" modal="true" appendTo="@(body)"	width="600px">
+		<h:form id="form-edicao-orientacao">
+			<p:tab title="Usuários para testes de permissões">
+				<ul>				
+					<li>
+						<h:commandLink value="Graduação" action="#{usuarioController.acessoGrad}" />
+					</li>
+					<li>
+						<h:commandLink value="Pós-Graduação" action="#{usuarioController.acessoPos}" />
+					</li>
+				</ul>
+	        </p:tab>
+		</h:form>
+	</p:dialog>
+	
+</h:body>
+</html>

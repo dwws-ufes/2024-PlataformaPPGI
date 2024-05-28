@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration>
+	<Appenders>
+		<Console name="Console">
+			<PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+		</Console>
+		<Console name="ConsolePuro">
+			<PatternLayout pattern="%msg%n"/>
+		</Console>
+		<RollingFile name="RollingFilePlanoEstudo" filePattern="${sys:catalina.home}/logs/planoEstudo/log.%d{yyyy-MM-dd}.%i.log">
+			<PatternLayout pattern="[%level] %d{dd-MM-yyyy HH:mm:ss.SSS} %t %logger{36}\n  %msg%n\n"/>
+			<Policies>
+				<CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+				<SizeBasedTriggeringPolicy size="64 MB"/>
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<ROOT level="info">
+			<AppenderRef ref="Console"/>
+		</ROOT>
+
+		<logger name="br.ufes.npd" level="off" />
+
+		<logger name="br.ufes.npd.academico.planoEstudo" level="error" additivity="false">
+			<AppenderRef ref="RollingFilePlanoEstudo"/>
+		</logger>
+	
+		<!-- 3rdparty Loggers -->
+		<logger name="org.hibernate" level="error" />
+		<logger name="org.springframework.core" level="error" />
+		<logger name="org.springframework.beans" level="error" />
+		<logger name="org.springframework.context" level="error" />
+		<logger name="org.springframework.web" level="error" />
+	</Loggers>
+</Configuration>
