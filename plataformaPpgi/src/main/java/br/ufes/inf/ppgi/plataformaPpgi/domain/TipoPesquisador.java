@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+
+@Entity
+@Table(schema = "plataformappgi", name="tipopesquisador")
 public class TipoPesquisador extends ObjetoPersistente implements Serializable{	
 	
 	/**
@@ -18,7 +23,7 @@ public class TipoPesquisador extends ObjetoPersistente implements Serializable{
 
 	@Id
 	@Column(name="idTipoPesquisador")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer idTipoPesquisador;
 	
 	@NotNull

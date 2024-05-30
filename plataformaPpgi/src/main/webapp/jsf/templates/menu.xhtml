@@ -10,11 +10,24 @@
 
 			<p:menuitem value="Página Inicial" outcome="/jsf/inicio" icon="fa fa-home" />
 			
+			<p:menuitem value="Pessoas" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" />
+			
+			<p:menuitem value="Usuários" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" />
+			
 			<p:menuitem value="Pesquisador" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" />
 			
 			<p:menuitem value="Projeto" outcome="/jsf/inicio" icon="fa fa-book" />
 			
+			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/inicio" icon="fa fa-newspaper-o" />
+			
 			<p:menuitem value="Produção Acadêmica" outcome="/jsf/inicio" icon="fa fa-newspaper-o" />
+			
+			<p:submenu label="Cadastro de Tipos" icon="fa fa-list">
+				<p:menuitem value="Tipos de Pesquisadores" outcome="/jsf/tipoPesquisador/tipoPesquisador" icon="fa fa-list" />
+				<p:menuitem value="Papel de Pesquisadores" outcome="/jsf/inicio" icon="fa fa-list" />
+				<p:menuitem value="Tipos de Produção Acadêmica" outcome="/jsf/inicio" icon="fa fa-list" />
+				<p:menuitem value="Tipos de Usuários" outcome="/jsf/inicio" icon="fa fa-list" />
+			</p:submenu>
 			
 			<!-- <f:facet name="options">
 				<p:outputLabel value="Usuário SIE: #{usuarioController.usuario.login}" style="font-weight: bold; font-size: 12px; margin:1px 10px 1px 1px;"/>
