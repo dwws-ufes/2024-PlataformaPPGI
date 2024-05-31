@@ -1,0 +1,100 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+	<ui:define name="conteudo">		
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formProjeto">
+				<br />
+				<p:outputLabel value="Projetos" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{projetoController.listaProjetos}" emptyMessage="Não há projetos cadastrados" var="p" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{projetoController.projetoSelecionado}" rowKey="#{p.id}">
+					<p:ajax event="rowSelect" listener="#{projetoController.onRowSelectProjeto}" update="formProjeto" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Código do Projeto
+						</f:facet>
+						#{p.codigoProjeto}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do Projeto
+						</f:facet>
+						#{p.nomeProjeto}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Início
+						</f:facet>
+						<h:outputText value="#{p.dataInicio}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Fim
+						</f:facet>
+						<h:outputText value="#{p.dataFim}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Projeto" value="Novo Projeto" icon="ui-icon-plus"
+	          	  	action="#{projetoController.novoProjeto}" update="formProjeto" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	          	<div class="ui-fluid">
+        	  		<p:panel id="dadosProjeto" header="Cadastro do Projeto">
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          				<p:column>
+								 <h:outputText value="Código do Projeto:"/>
+								 <p:inputText label="nomeProjeto" value="#{projetoController.projeto.codigoProjeto}" required="true" requiredMessage="Informe o código do projeto."
+								 converter="#{trimStringConverter}"/>
+							</p:column>	
+							<p:column>
+								 <h:outputText value="Nome do Projeto:"/>
+								 <p:inputText label="nomeProjeto" value="#{projetoController.projeto.nomeProjeto}" required="true" requiredMessage="Informe o nome do projeto."
+								 converter="#{trimStringConverter}"/>
+							</p:column>         				
+	          			</p:panelGrid>
+	          			<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          				<p:column>
+								 <h:outputText value="Descrição do Projeto:"/>
+								 <p:inputTextarea value="#{projetoController.projeto.descricaoProjeto}" converter="#{trimStringConverter}" />
+							</p:column>
+	          			</p:panelGrid>
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2,ui-grid-col-2">
+	          				<p:column>
+						        <h:outputText value="Data de início:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de início do projeto." maxdate="#{projetoController.hoje}" 
+						        value="#{projetoController.projeto.dataInicio}"/>
+					       	</p:column>
+					       	<p:column>
+						        <h:outputText value="Data fim:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" value="#{projetoController.projeto.dataFim}" mindate="#{projetoController.hoje}"/>
+					       	</p:column>
+	          			</p:panelGrid>
+	          			<br />
+	          			<p:growl id="mensagemSalvar" showDetail="true" />
+						<div class="ui-fluid" align="center">
+							<p:commandButton id="projetoSalvar" value="Salvar" icon="ui-icon-disk"
+							 action="#{projetoController.salvarProjeto}"
+							 update="formProjeto" style="width:100px"/>						
+					     	<p:commandButton id="areaConhecimentoCancelar" value="Cancelar" icon="ui-icon-close"
+					     	 action="#{projetoController.cancelarProjeto}"
+							 update="formProjeto" partialSubmit="true" process="@this" style="width:100px"/>
+						</div>	    
+	          		</p:panel>	          		      		
+	          	</div>	
+			</h:form>			
+		</div>
+	</ui:define>  
+</ui:composition>
