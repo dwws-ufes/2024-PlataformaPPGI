@@ -1,0 +1,66 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+	<ui:define name="conteudo">	 
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formPapelPesquisador">
+				<br />
+				<p:outputLabel value="Tipos de Papel de Pesquisadores" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{papelPesquisadorController.listaPapelPesquisador}" emptyMessage="Não existem tipos de papel de pesquisadores caadastrados" var="p" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{papelPesquisadorController.papelPesquisadorSelecionado}" rowKey="#{p.id}">
+					<p:ajax event="rowSelect" listener="#{papelPesquisadorController.onRowSelectPapelPesquisador}" update="formPapelPesquisador" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do Papel de Pesquisador
+						</f:facet>
+						#{p.nomePapel}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Descrição
+						</f:facet>
+						#{p.descricaoPapel}
+					</p:column>				
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Tipo Pesquisador" value="NovoTipo de Pesquisador" icon="ui-icon-plus"
+	          	  	action="#{papelPesquisadorController.novoPapelPesquisador}" update="formPapelPesquisador" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	          	<div class="ui-fluid">
+        	  		<p:panel id="dadosPapelPesquisador" header="Cadastro do Tipo de Papel de Pesquisador">
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          				<p:column>
+								 <h:outputText value="Nome do Tipo papel de Pesquisador:"/>
+								 <p:inputText label="nomeTipoPapelPesquisador" value="#{papelPesquisadorController.papelPesquisador.nomePapel}" required="true" requiredMessage="Informe o nome do tipo de pesquisador."
+								 converter="#{trimStringConverter}"/>
+							</p:column>	
+							<p:column>
+								 <h:outputText value="Descrição do Tipo de Pesquisador:"/>
+								 <p:inputText label="descicaoTipoPapelPesquisador" value="#{papelPesquisadorController.papelPesquisador.descricaoPapel}" converter="#{trimStringConverter}"/>
+							</p:column>         				
+	          			</p:panelGrid>
+	          			<br />
+	          			<p:growl id="mensagemSalvar" showDetail="true" />
+						<div class="ui-fluid" align="center">
+							<p:commandButton id="papelPesquisadorSalvar" value="Salvar" icon="ui-icon-disk"
+							 action="#{papelPesquisadorController.salvarPapelPesquisador}"
+							 update="formPapelPesquisador" style="width:100px"/>						
+					     	<p:commandButton id="papelPesquisadorCancelar" value="Cancelar" icon="ui-icon-close"
+					     	 action="#{papelPesquisadorController.cancelarPapelPesquisador}"
+							 update="formPapelPesquisador" partialSubmit="true" process="@this" style="width:100px"/>
+						</div>	    
+	          		</p:panel>	          		      		
+	          	</div>	
+			</h:form>			
+		</div>
+	</ui:define>
+</ui:composition>

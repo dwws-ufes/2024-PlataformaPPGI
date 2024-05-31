@@ -25,21 +25,10 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 
 	@Id
 	@Column(name="idPesquisador")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer idPesquisador;
 	
-	@NotNull
-	@Column(name="nomePesquisador")
-	private String nomePesquisador;
-	
-	@NotNull
-	@Column(name="cpf")
-	private String cpf;
-	
-	@NotNull
-	@Column(name="orcid")
-	private String orcid;
-	
+
 	@NotNull
 	@Column(name="dataInicioPrograma")
 	private Date dataInicioPrograma;
@@ -48,9 +37,11 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 	private Date dataFimPrograma;
 	
 	@NotNull
-	@Column(name="email")
-	private String email;
+	@ManyToOne
+	@JoinColumn(name="idPessoa")
+	private Pessoa pessoa;
 	
+		
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="idTipoPesquisador")
@@ -64,28 +55,12 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 		this.idPesquisador = idPesquisador;
 	}
 
-	public String getNomePesquisador() {
-		return nomePesquisador;
+	public Integer getIdPesquisador() {
+		return idPesquisador;
 	}
 
-	public void setNomePesquisador(String nomePesquisador) {
-		this.nomePesquisador = nomePesquisador;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getOrcid() {
-		return orcid;
-	}
-
-	public void setOrcid(String orcid) {
-		this.orcid = orcid;
+	public void setIdPesquisador(Integer idPesquisador) {
+		this.idPesquisador = idPesquisador;
 	}
 
 	public Date getDataInicioPrograma() {
@@ -104,12 +79,12 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 		this.dataFimPrograma = dataFimPrograma;
 	}
 
-	public String getEmail() {
-		return email;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public TipoPesquisador getTipoPesquisador() {
@@ -122,8 +97,7 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, dataFimPrograma, dataInicioPrograma, email, idPesquisador, nomePesquisador, orcid,
-				tipoPesquisador);
+		return Objects.hash(dataFimPrograma, dataInicioPrograma, idPesquisador, pessoa, tipoPesquisador);
 	}
 
 	@Override
@@ -135,11 +109,11 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pesquisador other = (Pesquisador) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(dataFimPrograma, other.dataFimPrograma)
-				&& Objects.equals(dataInicioPrograma, other.dataInicioPrograma) && Objects.equals(email, other.email)
-				&& Objects.equals(idPesquisador, other.idPesquisador)
-				&& Objects.equals(nomePesquisador, other.nomePesquisador) && Objects.equals(orcid, other.orcid)
+		return Objects.equals(dataFimPrograma, other.dataFimPrograma)
+				&& Objects.equals(dataInicioPrograma, other.dataInicioPrograma)
+				&& Objects.equals(idPesquisador, other.idPesquisador) && Objects.equals(pessoa, other.pessoa)
 				&& Objects.equals(tipoPesquisador, other.tipoPesquisador);
 	}
 
+	
 }

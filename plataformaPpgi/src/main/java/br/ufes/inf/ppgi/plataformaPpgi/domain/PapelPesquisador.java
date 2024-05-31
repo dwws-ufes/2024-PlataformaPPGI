@@ -26,11 +26,11 @@ public class PapelPesquisador extends ObjetoPersistente implements Serializable{
 	private Integer idPapelPesquisador;
 	
 	@NotNull
-	@Column(name="nomeTipoPesquisador")
-	private String nomeTipoPesquisador;
+	@Column(name="nomePapel")
+	private String nomePapel;
 	
-	@Column(name="descricaoTipoPesquisador")
-	private String descricaoTipoPesquisador;
+	@Column(name="descricaoPapel")
+	private String descricaoPapel;
 
 	public Integer getId() {
 		return idPapelPesquisador;
@@ -48,25 +48,25 @@ public class PapelPesquisador extends ObjetoPersistente implements Serializable{
 		this.idPapelPesquisador = idPapelPesquisador;
 	}
 
-	public String getNomeTipoPesquisador() {
-		return nomeTipoPesquisador;
+	public String getNomePapel() {
+		return nomePapel;
 	}
 
-	public void setNomeTipoPesquisador(String nomeTipoPesquisador) {
-		this.nomeTipoPesquisador = nomeTipoPesquisador;
+	public void setNomePapel(String nomePapel) {
+		this.nomePapel = nomePapel;
 	}
 
-	public String getDescricaoTipoPesquisador() {
-		return descricaoTipoPesquisador;
+	public String getDescricaoPapel() {
+		return descricaoPapel;
 	}
 
-	public void setDescricaoTipoPesquisador(String descricaoTipoPesquisador) {
-		this.descricaoTipoPesquisador = descricaoTipoPesquisador;
+	public void setDescricaoPapel(String descricaoPapel) {
+		this.descricaoPapel = descricaoPapel;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(descricaoTipoPesquisador, idPapelPesquisador, nomeTipoPesquisador);
+		return Objects.hash(descricaoPapel, idPapelPesquisador, nomePapel);
 	}
 
 	@Override
@@ -78,8 +78,8 @@ public class PapelPesquisador extends ObjetoPersistente implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PapelPesquisador other = (PapelPesquisador) obj;
-		return Objects.equals(descricaoTipoPesquisador, other.descricaoTipoPesquisador)
+		return Objects.equals(descricaoPapel, other.descricaoPapel)
 				&& Objects.equals(idPapelPesquisador, other.idPapelPesquisador)
-				&& Objects.equals(nomeTipoPesquisador, other.nomeTipoPesquisador);
+				&& Objects.equals(nomePapel, other.nomePapel);
 	}
 }
