@@ -84,7 +84,7 @@ public class TipoUsuarioController implements Serializable{
 		tipoUsuario = new TipoUsuario();
 	}
 	
-	public void salvarTipoProducaoAcademica(){
+	public void salvarTipoUsuario(){
 		try {
 			tipoUsuarioService.salvar(tipoUsuario);
 			listaTipoUsuario = tipoUsuarioService.recuperarTodos();			
@@ -110,5 +110,4 @@ public class TipoUsuarioController implements Serializable{
 		}
 
 	}
-
 }

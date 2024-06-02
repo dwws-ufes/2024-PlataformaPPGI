@@ -1,0 +1,66 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+	<ui:define name="conteudo">		
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formTipoUsuario">
+				<br />
+				<p:outputLabel value="Tipos de Usuários" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{tipoUsuarioController.listaTipoUsuario}" emptyMessage="Não existem tipos de usuários cadastrados" var="t" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{tipoUsuarioController.tipoUsuarioSelecionado}" rowKey="#{t.id}">
+					<p:ajax event="rowSelect" listener="#{tipoUsuarioController.onRowSelectTipoUsuario}" update="formTipoUsuario" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do Tipo deUsuario
+						</f:facet>
+						#{t.nomeTipoUsuario}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Descrição
+						</f:facet>
+						#{t.descricaoTipoUsuario}
+					</p:column>				
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Tipo Usuário" value="Novo Tipo de Usuário" icon="ui-icon-plus"
+	          	  	action="#{tipoUsuarioController.novoTipoUsuario}" update="formTipoUsuario" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	          	<div class="ui-fluid">
+        	  		<p:panel id="dadosTipoUsuario" header="Cadastro do Tipo de Usuário">
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          				<p:column>
+								 <h:outputText value="Nome do Tipo de Usuário:"/>
+								 <p:inputText label="nomeTipoUsuario" value="#{tipoUsuarioController.tipoUsuario.nomeTipoUsuario}" required="true" requiredMessage="Informe o nome do tipo de usuário."
+								 converter="#{trimStringConverter}"/>
+							</p:column>	
+							<p:column>
+								 <h:outputText value="Descrição do Tipo de Usuário:"/>
+								 <p:inputText label="descricaoTipoUsuario" value="#{tipoUsuarioController.tipoUsuario.descricaoTipoUsuario}" converter="#{trimStringConverter}"/>
+							</p:column>         				
+	          			</p:panelGrid>
+	          			<br />
+	          			<p:growl id="mensagemSalvar" showDetail="true" />
+						<div class="ui-fluid" align="center">
+							<p:commandButton id="tipoUsuarioSalvar" value="Salvar" icon="ui-icon-disk"
+							 action="#{tipoUsuarioController.salvarTipoUsuario}"
+							 update="formTipoUsuario" style="width:100px"/>						
+					     	<p:commandButton id="tipoProducaoAcademicaCancelar" value="Cancelar" icon="ui-icon-close"
+					     	 action="#{tipoUsuarioController.cancelarTipoUsuario}"
+							 update="formTipoUsuario" partialSubmit="true" process="@this" style="width:100px"/>
+						</div>	    
+	          		</p:panel>	          		      		
+	          	</div>	
+			</h:form>			
+		</div>
+	</ui:define>  
+</ui:composition>
