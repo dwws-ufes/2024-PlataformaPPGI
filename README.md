@@ -1,2 +1,2 @@
 # 2024-PlataformaPPGI
-Assignment for the 2023 edition of the "Web Development and the Semantic Web" course, by Alex Costa de Souza and Murilo Marchette
+Assignment for the 2023 edition of the "Web Development and the Semantic Web" course, by Alex Costa de Souza and Murilo Marchette. "Plataforma PPGI" is a tool that provides support for the registration, organization, control, and accurate dissemination of academic production within the scope of the Postgraduate Program in Informatics. Among other purposes, it aims to contextualize and publish the academic products.
