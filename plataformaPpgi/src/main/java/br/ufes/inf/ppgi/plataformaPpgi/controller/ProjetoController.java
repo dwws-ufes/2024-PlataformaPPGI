@@ -14,7 +14,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.validation.ValidationException;
 
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.PesquisadorProjeto;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
+import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorProjetoService;
+import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.ProjetoService;
 
 @ManagedBean
@@ -29,10 +33,20 @@ public class ProjetoController implements Serializable{
 	@ManagedProperty(value="#{projetoService}")
 	private ProjetoService projetoService;
 	
+	@ManagedProperty(value="#{pesquisadorService}")
+	private PesquisadorService pesquisadorService;
+	
+	@ManagedProperty(value="#{pesquisadorProjetoService}")
+	private PesquisadorProjetoService pesquisadorProjetoService;
+	
 	private Projeto projeto;
 	private Projeto projetoSelecionado;
+	private PesquisadorProjeto pesquisadorProjeto;
+	private PesquisadorProjeto pesquisadorProjetoSelecionado;
 	
 	private List<Projeto> listaProjetos;
+	private List<PesquisadorProjeto> listaPesquisadoresProjeto;
+	private List<Pesquisador> listaPesquisador;
 	
 	private Date hoje;
 	
@@ -42,6 +56,11 @@ public class ProjetoController implements Serializable{
 		listaProjetos = projetoService.recuperarTodos();
 		projeto = new Projeto();
 		hoje = Calendar.getInstance().getTime();
+		pesquisadorProjeto = new PesquisadorProjeto();
+		pesquisadorProjetoSelecionado = new PesquisadorProjeto();
+		listaPesquisadoresProjeto = new ArrayList<PesquisadorProjeto>();
+		listaPesquisador = new ArrayList<Pesquisador>();
+		listaPesquisador = pesquisadorService.recuperarTodos();
 	}
 
 	public ProjetoService getProjetoService() {
@@ -76,10 +95,63 @@ public class ProjetoController implements Serializable{
 		this.listaProjetos = listaProjetos;
 	}
 	
-	public void onRowSelectProjeto() {
-		projeto = projetoService.recuperarPorId(projetoSelecionado.getId());
+	public PesquisadorService getPesquisadorService() {
+		return pesquisadorService;
+	}
+
+	public void setPesquisadorService(PesquisadorService pesquisadorService) {
+		this.pesquisadorService = pesquisadorService;
+	}	
+	
+	public PesquisadorProjetoService getPesquisadorProjetoService() {
+		return pesquisadorProjetoService;
+	}
+
+	public void setPesquisadorProjetoService(PesquisadorProjetoService pesquisadorProjetoService) {
+		this.pesquisadorProjetoService = pesquisadorProjetoService;
+	}
+
+	public List<PesquisadorProjeto> getListaPesquisadoresProjeto() {
+		return listaPesquisadoresProjeto;
+	}
+
+	public void setListaPesquisadoresProjeto(List<PesquisadorProjeto> listaPesquisadoresProjeto) {
+		this.listaPesquisadoresProjeto = listaPesquisadoresProjeto;
 	}
 	
+	public PesquisadorProjeto getPesquisadorProjeto() {
+		return pesquisadorProjeto;
+	}
+
+	public void setPesquisadorProjeto(PesquisadorProjeto pesquisadorProjeto) {
+		this.pesquisadorProjeto = pesquisadorProjeto;
+	}
+
+	public PesquisadorProjeto getPesquisadorProjetoSelecionado() {
+		return pesquisadorProjetoSelecionado;
+	}
+
+	public void setPesquisadorProjetoSelecionado(PesquisadorProjeto pesquisadorProjetoSelecionado) {
+		this.pesquisadorProjetoSelecionado = pesquisadorProjetoSelecionado;
+	}
+
+	public List<Pesquisador> getListaPesquisador() {
+		return listaPesquisador;
+	}
+
+	public void setListaPesquisador(List<Pesquisador> listaPesquisador) {
+		this.listaPesquisador = listaPesquisador;
+	}
+
+	public void onRowSelectProjeto() {
+		projeto = projetoService.recuperarPorId(projetoSelecionado.getId());
+		listaPesquisadoresProjeto = pesquisadorProjetoService.recuperaPorProjeto(projeto);
+	}
+	
+	public void onRowSelectPesquisadorProjeto() {
+		pesquisadorProjeto = pesquisadorProjetoService.recuperarPorId(pesquisadorProjetoSelecionado.getId());
+	}
+
 	public void novoProjeto() {
 		projeto = new Projeto();
 	}
@@ -94,6 +166,16 @@ public class ProjetoController implements Serializable{
 
 	public void setHoje(Date hoje) {
 		this.hoje = hoje;
+	}
+	
+	public void novoPesquisadorProjeto() {
+		pesquisadorProjeto = new PesquisadorProjeto();
+		pesquisadorProjeto.setProjeto(projeto);
+		pesquisadorProjeto.setPesquisador(new Pesquisador());
+	}
+	
+	public void cancelarPesquisadorProjeto() {
+		pesquisadorProjeto = new PesquisadorProjeto();
 	}
 
 	public void salvarProjeto(){
@@ -135,5 +217,36 @@ public class ProjetoController implements Serializable{
 				projeto.setDataFim(new Date());
 			}
 		}
+	}
+	
+	public void salvarPesquisadorProjeto(){
+		try {
+			
+			pesquisadorProjetoService.salvar(pesquisadorProjeto);
+			listaPesquisadoresProjeto = pesquisadorProjetoService.recuperaPorProjeto(projeto);
+			pesquisadorProjeto = new PesquisadorProjeto();
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pesquisador Projeto salvo com sucesso.",
+					"O pesquisador projeto foi salvo com sucesso.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (ValidationException e) {
+			listaPesquisadoresProjeto = pesquisadorProjetoService.recuperaPorProjeto(projeto);
+			pesquisadorProjeto = new PesquisadorProjeto();
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao salvar o pesquisador projeto.",
+					e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			listaPesquisadoresProjeto = pesquisadorProjetoService.recuperaPorProjeto(projeto);
+			pesquisadorProjeto = new PesquisadorProjeto();
+
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao salvar o pesquisador projeto.",
+					e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			e.printStackTrace();
+		}
+
 	}
 }

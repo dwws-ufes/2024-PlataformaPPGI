@@ -1,0 +1,127 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+    <ui:define name="conteudo">
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formDados">
+				<br />
+				<p:outputLabel value="Produção Acadêmica:" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{producaoAcademicaController.listaProducaoAcademica}" emptyMessage="Não há produções acadêmicas cadastradas" var="p" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{producaoAcademicaController.producaoAcademicaSelecionada}" rowKey="#{p.id}">
+					<p:ajax event="rowSelect" listener="#{producaoAcademicaController.onRowSelectProducaoAcademica}" update="formDados" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Título da produção acadêmica
+						</f:facet>
+						#{p.tituloProducao}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Tipo da produção acadêmica
+						</f:facet>
+						#{p.tipoProducaoAcademica.nomeTipoProducaoAcademica}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Projeto
+						</f:facet>
+						#{p.projeto.nomeProjeto}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Publicação
+						</f:facet>
+						<h:outputText value="#{p.dataPublicacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Área de Conhecimento
+						</f:facet>
+						#{p.areaConhecimento.descricaoAreaConhecimento}
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Producao" value="Novo Produção Acadêmica" icon="ui-icon-plus"
+	          	  	action="#{producaoAcademicaController.novoProducaoAcademica}" update="formDados" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	       		<div class="ui-fluid">
+			        <p:panel id="dadosProducaoAcademica" header="Produção Acadêmica">
+						<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-3">
+						    <p:column>
+							    <h:outputText value="Título da Produção:"/>
+							    <p:inputText label="tituloProducao" required="true" value="#{producaoAcademicaController.producaoAcademica.tituloProducao}"
+							    requiredMessage="Informe o título da Produção." converter="#{trimStringConverter}"/>
+							</p:column>
+							<p:column>
+					       		<h:outputText value="Tipo de produção acadêmica:"/>
+								<p:selectOneMenu name="tipoproducao" id="tipoProducao" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{producaoAcademicaController.producaoAcademica.tipoProducaoAcademica}" converter="entityConverter" required="true" requiredMessage="Selecione o tipo produção acadêmica.">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{producaoAcademicaController.listaTipoProducaoAcademica}"
+										var="itemLista" itemLabel="#{itemLista.nomeTipoProducaoAcademica}" itemValue="#{itemLista}"/>
+								</p:selectOneMenu>
+							</p:column>
+					    </p:panelGrid>
+					    <h:outputText value="Produção independente de Projeto?"/>
+					    <p:selectOneRadio id="line" value="#{producaoAcademicaController.producaoAcademica.indProjetoIndependente}" layout="lineDirection">
+				            <f:selectItem itemLabel="Sim" itemValue="S"/>
+				            <f:selectItem itemLabel="Não" itemValue="N"/>
+				        </p:selectOneRadio>
+				        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+				        	<p:column>
+					       		<h:outputText value="Projeto:"/>
+								<p:selectOneMenu name="projeto" id="projeto" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{producaoAcademicaController.producaoAcademica.projeto}" converter="entityConverter">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{producaoAcademicaController.listaProjetos}"
+										var="itemLista" itemLabel="#{itemLista.nomeProjeto}" itemValue="#{itemLista}"/>
+								</p:selectOneMenu>
+							</p:column>
+							<p:column>
+							    <h:outputText value="Descrição da produção acadêmica:"/>
+							    <p:inputText label="descricaoProducao" required="true" value="#{producaoAcademicaController.producaoAcademica.descricaoProducaoAcademica}"
+							    requiredMessage="Informe a descricao." converter="#{trimStringConverter}"/>
+							</p:column>
+							<p:column>
+						        <h:outputText value="Data da publicação:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de publicação." 
+						        value="#{producaoAcademicaController.producaoAcademica.dataPublicacao}"/>
+					       	</p:column>
+					       	<p:column>
+					       		<h:outputText value="Area de Conhecimento:"/>
+								<p:selectOneMenu name="area" id="areaConhecimento" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{producaoAcademicaController.producaoAcademica.areaConhecimento}" converter="entityConverter">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{producaoAcademicaController.listaAreaConhecimento}"
+										var="itemLista" itemLabel="#{itemLista.descricaoAreaConhecimento}" itemValue="#{itemLista}"/>
+								</p:selectOneMenu>
+							</p:column>
+				        </p:panelGrid>
+					    <p:growl id="mensagemSalvarProducaoAcademica" showDetail="true">
+					      	<p:autoUpdate />
+					    </p:growl>
+					    <div class="ui-fluid" align="center">
+				          	  <p:commandButton id="producaoAcademicaSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px" action="#{producaoAcademicaController.salvarProducaoAcademica}" update="formDados"/>
+				          	  <p:commandButton id="producaoAcademicaCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px" action="#{producaoAcademicaController.cancelarProducaoAcademica}"
+				          	  update="formDados"/>
+				         </div>
+					</p:panel>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>  
+</ui:composition>

@@ -18,7 +18,7 @@
 			
 			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" />
 			
-			<p:menuitem value="Produção Acadêmica" outcome="/jsf/inicio" icon="fa fa-newspaper-o" />
+			<p:menuitem value="Produção Acadêmica" outcome="/jsf/producaoAcademica/producaoAcademica" icon="fa fa-newspaper-o" />
 			
 			<p:submenu label="Cadastro de Tipos" icon="fa fa-list">
 				<p:menuitem value="Tipos de Pesquisadores" outcome="/jsf/tipoPesquisador/tipoPesquisador" icon="fa fa-list" />
@@ -27,10 +27,10 @@
 				<p:menuitem value="Tipos de Usuários" outcome="/jsf/tipoUsuario/tipoUsuario" icon="fa fa-list" />
 			</p:submenu>
 			
-			<!-- <f:facet name="options">
-				<p:outputLabel value="Usuário SIE: #{usuarioController.usuario.login}" style="font-weight: bold; font-size: 12px; margin:1px 10px 1px 1px;"/>
-				<p:commandButton value="Sair" icon="ui-icon-extlink" action="#{usuarioController.logout}" />
-			</f:facet> -->
+			<f:facet name="options">
+				<p:outputLabel value="Usuário: #{login}" style="font-weight: bold; font-size: 12px; margin:1px 10px 1px 1px;"/>
+				<p:commandButton value="Sair" icon="ui-icon-extlink" action="#{loginController.logout}" />
+			</f:facet>
 		</p:menubar>
 	</h:form>
 </ui:composition>

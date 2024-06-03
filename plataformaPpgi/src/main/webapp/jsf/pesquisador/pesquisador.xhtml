@@ -5,6 +5,9 @@
      xmlns:p="http://primefaces.org/ui"
      xmlns:ui="http://java.sun.com/jsf/facelets"> 
      
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificaTipoUsuarioPesquisador}" />
+    </f:metadata>
 	<ui:define name="conteudo">
 		<div class="ui-fluid" style="padding: 90px;">
 			<h:form id="formDados">
@@ -47,7 +50,7 @@
 				<p:divider />
 				<br />
 	          	<div class="ui-fluid" align="center">
-	           		<p:commandButton title="Pesquisador" value="Novo Pesdquisador" icon="ui-icon-plus"
+	           		<p:commandButton title="Pesquisador" value="Novo Pesquisador" icon="ui-icon-plus"
 	          	  	action="#{pesquisadorController.novoPesquisador}" update="formDados" partialSubmit="true" process="@this" style="width:160px"/>
 	            </div>	
 	          	<br />

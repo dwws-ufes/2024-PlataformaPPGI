@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<org.springframework-version>5.3.19</org.springframework-version>
-		<jsf.version>2.2.15</jsf.version>
+		<jsf.version>2.2.20</jsf.version>
 		<primafaces.version>13.0.0</primafaces.version>
 		<junit.version>4.11</junit.version>
 		<hibernate.version>5.3.7.Final</hibernate.version>

@@ -4,7 +4,10 @@
      xmlns:f="http://java.sun.com/jsf/core"  
      xmlns:p="http://primefaces.org/ui"
      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-     
+    
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificaTipoUsuarioPesquisador}" />
+    </f:metadata>
 	<ui:define name="conteudo">		
 		<div class="ui-fluid" style="padding: 90px;">
 			<h:form id="formProjeto">
@@ -52,7 +55,7 @@
 	            </div>	
 	          	<br />
 	          	<div class="ui-fluid">
-        	  		<p:panel id="dadosProjeto" header="Cadastro do Projeto">
+        	  		<p:panel id="dadosProjeto" header="Dados do Projeto">
 	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
 	          				<p:column>
 								 <h:outputText value="Código do Projeto:"/>
@@ -65,13 +68,11 @@
 								 converter="#{trimStringConverter}"/>
 							</p:column>         				
 	          			</p:panelGrid>
-	          			<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          			<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
 	          				<p:column>
 								 <h:outputText value="Descrição do Projeto:"/>
 								 <p:inputTextarea value="#{projetoController.projeto.descricaoProjeto}" converter="#{trimStringConverter}" />
 							</p:column>
-	          			</p:panelGrid>
-	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-2,ui-grid-col-2">
 	          				<p:column>
 						        <h:outputText value="Data de início:"/>
 						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de início do projeto." maxdate="#{projetoController.hoje}" 
@@ -88,12 +89,103 @@
 							<p:commandButton id="projetoSalvar" value="Salvar" icon="ui-icon-disk"
 							 action="#{projetoController.salvarProjeto}"
 							 update="formProjeto" style="width:100px"/>						
-					     	<p:commandButton id="areaConhecimentoCancelar" value="Cancelar" icon="ui-icon-close"
+					     	<p:commandButton id="projetoCancelarCancelar" value="Cancelar" icon="ui-icon-close"
 					     	 action="#{projetoController.cancelarProjeto}"
 							 update="formProjeto" partialSubmit="true" process="@this" style="width:100px"/>
 						</div>	    
 	          		</p:panel>	          		      		
-	          	</div>	
+	          	</div>
+	          	<br />
+				<p:divider />
+				<br />
+				<p:outputLabel value="Pesquisadores do Projeto" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{projetoController.listaPesquisadoresProjeto}" emptyMessage="Não há pesquisadores cadastrados" var="p" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{projetoController.pesquisadorProjetoSelecionado}" rowKey="#{p.id}">
+					<p:ajax event="rowSelect" listener="#{projetoController.onRowSelectPesquisadorProjeto}" update="formProjeto" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Código do Projeto
+						</f:facet>
+						#{p.projeto.codigoProjeto}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do Projeto
+						</f:facet>
+						#{p.projeto.nomeProjeto}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do Pesquisador
+						</f:facet>
+						#{p.pesquisador.pessoa.nomePessoa}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Tipo Pesquisador
+						</f:facet>
+						#{p.pesquisador.tipoPesquisador.nomeTipoPesquisador}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Início
+						</f:facet>
+						<h:outputText value="#{p.dataInicio}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Fim
+						</f:facet>
+						<h:outputText value="#{p.dataFim}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Pesquisador" value="Novo Pesquisador" icon="ui-icon-plus"
+	          	  	action="#{projetoController.novoPesquisadorProjeto}" update="formProjeto" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>
+	            <br />
+	            <div class="ui-fluid">
+        	  		<p:panel id="dadosPesquisador" header="Dados do Pesquisador">
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
+	          				<p:column>
+								 <h:outputText value="Pesquisador:"/>
+								 <p:selectOneMenu name="pesquisador" id="pesquisador" filter="true" filterMatchMode="contains" autoWidth="false"
+								  value="#{projetoController.pesquisadorProjeto.pesquisador}" converter="entityConverter" required="true" requiredMessage="Selecione o pesquisador.">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{projetoController.listaPesquisador}"
+										var="itemLista" itemLabel="#{itemLista.pessoa.nomePessoa}" itemValue="#{itemLista}"/>
+								 </p:selectOneMenu>
+							</p:column>
+	          				<p:column>
+						        <h:outputText value="Data de início:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de início do projeto."
+						        value="#{projetoController.pesquisadorProjeto.dataInicio}"/>
+					       	</p:column>
+					       	<p:column>
+						        <h:outputText value="Data fim:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" value="#{projetoController.pesquisadorProjeto.dataFim}"/>
+					       	</p:column>
+	          			</p:panelGrid>
+	          			<br />
+	          			<p:growl id="mensagemSalvarPesquisador" showDetail="true" />
+						<div class="ui-fluid" align="center">
+							<p:commandButton id="pesquisadorSalvar" value="Salvar" icon="ui-icon-disk"
+							 action="#{projetoController.salvarPesquisadorProjeto}"
+							 update="formProjeto" style="width:100px"/>						
+					     	<p:commandButton id="pesquisadorProjetoCancelar" value="Cancelar" icon="ui-icon-close"
+					     	 action="#{projetoController.cancelarPesquisadorProjeto}"
+							 update="formProjeto" partialSubmit="true" process="@this" style="width:100px"/>
+						</div>	    
+	          		</p:panel>
+	          	</div>
 			</h:form>			
 		</div>
 	</ui:define>  

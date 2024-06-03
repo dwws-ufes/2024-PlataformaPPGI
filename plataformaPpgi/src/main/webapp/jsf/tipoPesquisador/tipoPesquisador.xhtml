@@ -5,6 +5,9 @@
      xmlns:p="http://primefaces.org/ui"
      xmlns:ui="http://java.sun.com/jsf/facelets"> 
      
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificaTipoUsuarioPesquisador}" />
+    </f:metadata>
 	<ui:define name="conteudo">		
 		<div class="ui-fluid" style="padding: 90px;">
 			<h:form id="formTipoPesquisador">
