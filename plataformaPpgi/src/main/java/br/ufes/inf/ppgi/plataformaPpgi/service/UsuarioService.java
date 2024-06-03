@@ -32,4 +32,12 @@ public class UsuarioService extends CRUDService<Usuario> implements Serializable
 	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
 		this.usuarioDAO = usuarioDAO;
 	}
+	
+	public Usuario recuperaCpfExistente(String cpf) {
+		return usuarioDAO.recuperaCpfExistente(cpf);
+	}
+	
+	public Usuario retornaUsuario(String login, String senha) {
+		return usuarioDAO.retornaUsuario(login, senha);
+	}
 }

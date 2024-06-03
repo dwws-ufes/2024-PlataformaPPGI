@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"> 
       
 <h:head>  
-	<title>Portal Acadêmico</title>
+	<title>Plataforma PPGI</title>
 	
 	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
     <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/principal.css" />
@@ -25,42 +25,22 @@
 <h:body style="background-color: #fbefef">
 	<h:form id="login">
 		<p:growl id="mensagem" showDetail="true" />
-		<p:panel header="Sistema Acadêmico" style="text-align:center;width:500px;
+		<p:panel header="Plataforma PPGI" style="text-align:center;width:500px;
 		position:absolute;left:50%;top:50%;margin-left:-250px;margin-top:-125px;" >
 		<p:focus context="login"/>
-				<p:graphicImage value="/design/imagens/logoufeslogin.png" 
+				<p:graphicImage value="/design/imagens/ufes-ppgi.png" 
 	   			width="300px"/>
 	   			<center>
 	   				<h:panelGrid columns="2" cellpadding="1" style="text-align:left">
 						<h:outputLabel value="Usuário:"/>
-						<p:inputText value="#{usuarioController.usuario.login}" /> 
+						<p:inputText value="#{loginController.usuario.login}" /> 
 						
 						<h:outputLabel value="Senha:"/>
-						<p:password value="#{usuarioController.usuario.senha}" autocomplete="off" />
-					
-						<h:outputLabel value=""/>
-						<b><a href="https://senha.ufes.br/site/recuperaCredenciais" target="blank_">Esqueci/Não Recebi a senha</a></b>							
+						<p:password value="#{loginController.usuario.senha}" autocomplete="off" />						
 					</h:panelGrid>
-					<p:commandButton value="Login" action="#{usuarioController.efetuarLogin}" ajax="false" update="mensagem"/>	   				
+					<p:commandButton value="Login" action="#{loginController.efetuarLogin}" ajax="false" update="mensagem"/>	   				
 				</center>
 		</p:panel>
-	</h:form>
-	
-	<p:dialog header="Escolher Perfil Acadêmico" id="dialog-edicao-orientacao"
-						widgetVar="dialog-escolher-grad-ou-pos" modal="true" appendTo="@(body)"	width="600px">
-		<h:form id="form-edicao-orientacao">
-			<p:tab title="Usuários para testes de permissões">
-				<ul>				
-					<li>
-						<h:commandLink value="Graduação" action="#{usuarioController.acessoGrad}" />
-					</li>
-					<li>
-						<h:commandLink value="Pós-Graduação" action="#{usuarioController.acessoPos}" />
-					</li>
-				</ul>
-	        </p:tab>
-		</h:form>
-	</p:dialog>
-	
+	</h:form>	
 </h:body>
 </html>

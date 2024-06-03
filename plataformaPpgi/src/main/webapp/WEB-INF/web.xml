@@ -81,7 +81,7 @@
 	</servlet-mapping>	
 
 	<welcome-file-list>
-		<welcome-file>jsf/inicio.xhtml</welcome-file>
+		<welcome-file>jsf/login.xhtml</welcome-file>
 	</welcome-file-list>
 
 	<error-page>

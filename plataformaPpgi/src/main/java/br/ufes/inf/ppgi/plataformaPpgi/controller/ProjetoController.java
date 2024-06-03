@@ -125,7 +125,7 @@ public class ProjetoController implements Serializable{
 	
 	public void validarDataFim() {
 		if(projeto.getDataInicio() == null) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Escolha primeiro a datda de início do projeto.", null);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Escolha primeiro a data de início do projeto.", null);
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			projeto.setDataFim(new Date());
 		} else {

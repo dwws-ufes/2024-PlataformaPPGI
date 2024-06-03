@@ -49,6 +49,11 @@ public class Usuario extends ObjetoPersistente implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="idTipoUsuario")
 	private TipoUsuario tipoUsuario;
+	
+	public Usuario() {
+		this.pessoa = new Pessoa();
+		this.tipoUsuario = new TipoUsuario();
+	}
 
 	public Integer getId() {
 		return idUsuario;

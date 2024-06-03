@@ -32,4 +32,8 @@ public class PessoaService extends CRUDService<Pessoa> implements Serializable{
 	public void setPessoaDAO(PessoaDAO pessoaDAO) {
 		this.pessoaDAO = pessoaDAO;
 	}
+	
+	public Pessoa recuperaPorCpf(String cpf) {
+		return pessoaDAO.recuperaPorCpf(cpf);
+	}
 }

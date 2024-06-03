@@ -39,13 +39,17 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="idPessoa")
-	private Pessoa pessoa;
-	
+	private Pessoa pessoa;	
 		
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="idTipoPesquisador")
 	private TipoPesquisador tipoPesquisador;
+	
+	public Pesquisador() {
+		this.pessoa = new Pessoa();
+		this.tipoPesquisador = new TipoPesquisador();
+	}
 
 	public Integer getId() {
 		return idPesquisador;

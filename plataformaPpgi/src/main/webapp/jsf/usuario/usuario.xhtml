@@ -1,0 +1,112 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+	<ui:define name="conteudo">
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formDados">
+				<br />
+				<p:outputLabel value="Usuários:" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{usuarioController.listaUsuario}" emptyMessage="Não há usuários cadastrados" var="u" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{usuarioController.usuarioSelecionado}" rowKey="#{u.id}">
+					<p:ajax event="rowSelect" listener="#{usuarioController.onRowSelectUsuario}" update="formDados" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Login do usuário
+						</f:facet>
+						#{u.login}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Tipo de usuário
+						</f:facet>
+						#{u.tipoUsuario.nomeTipoUsuario}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data de validade
+						</f:facet>
+						<h:outputText value="#{u.dataValidade}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Usuário" value="Novo Usuário" icon="ui-icon-plus"
+	          	  	action="#{usuarioController.novoUsuario}" update="formDados" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	       		<div class="ui-fluid">
+			        <p:panel id="dadosUsuario" header="Usuário">
+						<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+						    <p:column>
+						       	<h:outputText value="CPF:"/>
+							    <p:inputMask mask="999.999.999-99" id="numeroCpf" value="#{usuarioController.usuario.pessoa.cpf}"
+							  		  label="cpf" converter="#{trimStringConverter}"
+							  		  required="true" requiredMessage="Informe o número do CPF.">
+							  		  <p:ajax listener="#{usuarioController.validarCpf}" process="@this" update="dadosUsuario" event="blur"/>
+							  	</p:inputMask>							  		  
+						    </p:column>
+						    <p:column>
+							    <h:outputText value="Nome do Usuário:"/>
+							    <p:inputText label="nomeUsuario" required="true" value="#{usuarioController.usuario.pessoa.nomePessoa}"
+							    requiredMessage="Informe o nome do usuário." converter="#{trimStringConverter}"/>
+							</p:column>							
+						    <p:column>
+						       	<h:outputText value="Orcid:"/>
+							    <p:inputText label="orcid" required="true" value="#{usuarioController.usuario.pessoa.orcid}"
+							    requiredMessage="Informe o orcid." converter="#{trimStringConverter}"/>
+						    </p:column>
+						    <p:column>
+						       	<h:outputText value="E-mail:"/>
+							    <p:inputText label="email" required="true" value="#{usuarioController.usuario.pessoa.email}"
+							    requiredMessage="Informe o e-mail." converter="#{trimStringConverter}"/>
+						    </p:column>
+						    <p:column>
+					       		<h:outputText value="Tipo de Usuário:"/>
+								 <p:selectOneMenu name="tipo Usuário" id="tipoUsuario" filter="true" filterMatchMode="contains" autoWidth="false"
+								  value="#{usuarioController.usuario.tipoUsuario}" converter="entityConverter" required="true" requiredMessage="Selecione o tipo de usuário.">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{usuarioController.listaTipoUsuario}"
+										var="itemLista" itemLabel="#{itemLista.nomeTipoUsuario}" itemValue="#{itemLista}"/>
+								 </p:selectOneMenu>
+							</p:column>
+							<p:column>
+							    <h:outputText value="login:"/>
+							    <p:inputText label="nomeUsuario" required="true" value="#{usuarioController.usuario.login}"
+							    requiredMessage="Informe o login do usuário." converter="#{trimStringConverter}"/>
+							</p:column>							
+						    <p:column>
+						       	<h:outputText value="senha:"/>
+							    <p:inputText label="senha" required="true" value="#{usuarioController.usuario.senha}"
+							    requiredMessage="Informe a senha." converter="#{trimStringConverter}"/>
+						    </p:column>
+							<p:column>
+						        <h:outputText value="Data de validade:"/>
+								<p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de início no programa."
+						        value="#{usuarioController.usuario.dataValidade}" />
+					       	</p:column>					       	
+					    </p:panelGrid>
+					    <p:separator/>
+					    <p:growl id="mensagemSalvarUsuario" showDetail="true">
+					      	<p:autoUpdate />
+					    </p:growl>
+					    <div class="ui-fluid" align="center">
+				          	  <p:commandButton id="usuarioSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px" action="#{usuarioController.salvarUsuario}" update="formDados"/>
+				          	  <p:commandButton id="usuarioCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px" action="#{usuarioController.cancelarUsuario}"
+				          	  update="formDados"/>
+				         </div>
+					</p:panel>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>  
+</ui:composition>

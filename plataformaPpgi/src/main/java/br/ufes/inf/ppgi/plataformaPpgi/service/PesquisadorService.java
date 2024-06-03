@@ -32,4 +32,8 @@ public class PesquisadorService extends CRUDService<Pesquisador> implements Seri
 	public void setPesquisadorDAO(PesquisadorDAO pesquisadorDAO) {
 		this.pesquisadorDAO = pesquisadorDAO;
 	}
+	
+	public Pesquisador recuperaCpfExistente(String cpf) {
+		return pesquisadorDAO.recuperaCpfExistente(cpf);
+	}
 }

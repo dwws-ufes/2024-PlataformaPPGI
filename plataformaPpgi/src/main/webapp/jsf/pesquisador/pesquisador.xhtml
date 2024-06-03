@@ -6,37 +6,111 @@
      xmlns:ui="http://java.sun.com/jsf/facelets"> 
      
 	<ui:define name="conteudo">
-		<h:form id="formDados">
-       		<div class="ui-fluid" style="padding: 90px;">
-		        <p:panel id="dadosPesquisador" header="Pesquisador">
-					<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-3">
-					    <p:column>
-						    <h:outputText value="Nome do Pesquisador:"/>
-						    <p:inputText label="nomeAluno" required="true"
-						    requiredMessage="Informe o nome do pesquisador." converter="#{trimStringConverter}"/>
-						</p:column>
-						<p:column>
-					       	<h:outputText value="CPF:"/>
-						    <p:inputMask mask="999.999.999-99" id="numeroCpf"
-						  		  label="Número do CPF" converter="#{trimStringConverter}"
-						  		  required="true" requiredMessage="Informe o número do CPF."/>
-					    </p:column>
-						<p:column>
-					        <h:outputText value="Data de início:"/>
-					        <p:calendar locale="pt_BR" pattern="dd/MM/yyyy"
-								mask="true" navigator="true"/>
-				       	</p:column>
-				    </p:panelGrid>
-				    <p:separator/>
-				    <p:growl id="mensagemSalvarPesquisador" showDetail="true">
-				      	<p:autoUpdate />
-				    </p:growl>
-				    <div class="ui-fluid" align="center">
-			          	  <p:commandButton id="pesdquisadorSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px"/>
-			          	  <p:commandButton id="pesquisadorCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px"/>
-			         </div>
-				</p:panel>
-			</div>
-		</h:form>
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formDados">
+				<br />
+				<p:outputLabel value="Pesquisadores:" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{pesquisadorController.listaPesquisador}" emptyMessage="Não há pesquisadores cadastrados" var="p" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{pesquisadorController.pesquisadorSelecionado}" rowKey="#{p.id}">
+					<p:ajax event="rowSelect" listener="#{pesquisadorController.onRowSelectPesquisador}" update="formDados" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome do pesquisador
+						</f:facet>
+						#{p.pessoa.nomePessoa}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Tipo de pesquisador
+						</f:facet>
+						#{p.tipoPesquisador.nomeTipoPesquisador}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Início no programa
+						</f:facet>
+						<h:outputText value="#{p.dataInicioPrograma}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data fim no programa
+						</f:facet>
+						<h:outputText value="#{p.dataFimPrograma}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+	          	<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Pesquisador" value="Novo Pesdquisador" icon="ui-icon-plus"
+	          	  	action="#{pesquisadorController.novoPesquisador}" update="formDados" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	       		<div class="ui-fluid">
+			        <p:panel id="dadosPesquisador" header="Pesquisador">
+						<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+						    <p:column>
+							    <h:outputText value="Nome do Pesquisador:"/>
+							    <p:inputText label="nomePesquisador" required="true" value="#{pesquisadorController.pesquisador.pessoa.nomePessoa}"
+							    requiredMessage="Informe o nome do pesquisador." converter="#{trimStringConverter}"/>
+							</p:column>
+							<p:column>
+						       	<h:outputText value="CPF:"/>
+							    <p:inputMask mask="999.999.999-99" id="numeroCpf" value="#{pesquisadorController.pesquisador.pessoa.cpf}"
+							  		  label="cpf" converter="#{trimStringConverter}"
+							  		  required="true" requiredMessage="Informe o número do CPF.">
+							  		  <p:ajax listener="#{pesquisadorController.validarCpf}" process="@this" update="numeroCpf" event="blur"/>
+							  	</p:inputMask>
+							  		  
+						    </p:column>
+						    <p:column>
+						       	<h:outputText value="Orcid:"/>
+							    <p:inputText label="orcid" required="true" value="#{pesquisadorController.pesquisador.pessoa.orcid}"
+							    requiredMessage="Informe o orcid." converter="#{trimStringConverter}"/>
+						    </p:column>
+						    <p:column>
+						       	<h:outputText value="E-mail:"/>
+							    <p:inputText label="email" required="true" value="#{pesquisadorController.pesquisador.pessoa.email}"
+							    requiredMessage="Informe o e-mail." converter="#{trimStringConverter}"/>
+						    </p:column>
+							<p:column>
+						        <h:outputText value="Data de início no programa:"/>
+								<p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de início no programa."
+						        value="#{pesquisadorController.pesquisador.dataInicioPrograma}" />
+					       	</p:column>
+					       	<p:column>
+						        <h:outputText value="Data de fim no programa:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true"
+						        value="#{pesquisadorController.pesquisador.dataFimPrograma}" />
+					       	</p:column>
+					       	<p:column>
+					       		<h:outputText value="Tipo de pesquisador:"/>
+								 <p:selectOneMenu name="tipo pesquisador" id="tipoPesquisador" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{pesquisadorController.pesquisador.tipoPesquisador}" converter="entityConverter" required="true" requiredMessage="Selecione o tipo de pesquisador.">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{pesquisadorController.listaTipoPesquisador}"
+										var="itemLista" itemLabel="#{itemLista.nomeTipoPesquisador}" itemValue="#{itemLista}"/>
+								 </p:selectOneMenu>
+							</p:column>
+					    </p:panelGrid>
+					    <p:separator/>
+					    <p:growl id="mensagemSalvarPesquisador" showDetail="true">
+					      	<p:autoUpdate />
+					    </p:growl>
+					    <div class="ui-fluid" align="center">
+				          	  <p:commandButton id="pesdquisadorSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px" action="#{pesquisadorController.salvarPesquisador}" update="formDados"/>
+				          	  <p:commandButton id="pesquisadorCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px" action="#{pesquisadorController.cancelarPesquisador}"
+				          	  update="formDados"/>
+				         </div>
+					</p:panel>
+				</div>
+			</h:form>
+		</div>
 	</ui:define>  
 </ui:composition>
