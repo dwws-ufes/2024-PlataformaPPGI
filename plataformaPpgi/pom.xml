@@ -14,13 +14,11 @@
 		<java-version>17</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<org.springframework-version>5.3.19</org.springframework-version>
+		<org.springframework-version>5.3.36</org.springframework-version>
 		<jsf.version>2.2.20</jsf.version>
 		<primafaces.version>13.0.0</primafaces.version>
-		<junit.version>4.11</junit.version>
-		<hibernate.version>5.3.7.Final</hibernate.version>
-
-		
+		<junit.version>4.13.2</junit.version>
+		<hibernate.version>5.6.15.Final</hibernate.version>		
 	</properties>
 	
 	<repositories>
@@ -38,13 +36,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework-version}</version>
-			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				 </exclusion>
-			</exclusions>
 		</dependency>
 		<dependency><!-- Usada indiretamente -->
 			<groupId>org.springframework</groupId>
@@ -174,7 +165,7 @@
        	<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version>
+			<version>1.0.2.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -186,7 +177,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
