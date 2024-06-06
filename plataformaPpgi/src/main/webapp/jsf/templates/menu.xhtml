@@ -8,23 +8,24 @@
 	<h:form>
 		<p:menubar autoDisplay="false">
 
-			<p:menuitem value="Página Inicial" outcome="/jsf/inicio" icon="fa fa-home" />
+			<p:menuitem value="Página Inicial" outcome="/jsf/inicio" icon="fa fa-home"/>
 			
-			<p:menuitem value="Usuários" outcome="/jsf/usuario/usuario" icon="fa fa-user" />
+			<p:menuitem value="Usuários" outcome="/jsf/usuario/usuario" icon="fa fa-user" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Pesquisador" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" />
+			<p:menuitem value="Pesquisador" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Projeto" outcome="/jsf/projeto/projeto" icon="fa fa-book" />
+			<p:menuitem value="Projeto" outcome="/jsf/projeto/projeto" icon="fa fa-book" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" />
+			<p:menuitem value="Produção Acadêmica" outcome="/jsf/producaoAcademica/producaoAcademica" icon="fa fa-newspaper-o" 
+			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : sessionScope.tipoUsuario eq 'Pesquisador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Produção Acadêmica" outcome="/jsf/producaoAcademica/producaoAcademica" icon="fa fa-newspaper-o" />
+			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:submenu label="Cadastro de Tipos" icon="fa fa-list">
-				<p:menuitem value="Tipos de Pesquisadores" outcome="/jsf/tipoPesquisador/tipoPesquisador" icon="fa fa-list" />
-				<p:menuitem value="Tipos de Papel de Pesquisadores" outcome="/jsf/papelPesquisador/papelPesquisador" icon="fa fa-list" />
-				<p:menuitem value="Tipos de Produção Acadêmica" outcome="/jsf/tipoProducaoAcademica/tipoProducaoAcademica" icon="fa fa-list" />
-				<p:menuitem value="Tipos de Usuários" outcome="/jsf/tipoUsuario/tipoUsuario" icon="fa fa-list" />
+			<p:submenu label="Cadastro de Tipos" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}">
+				<p:menuitem value="Tipos de Pesquisadores" outcome="/jsf/tipoPesquisador/tipoPesquisador" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+				<p:menuitem value="Tipos de Papel de Pesquisadores" outcome="/jsf/papelPesquisador/papelPesquisador" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+				<p:menuitem value="Tipos de Produção Acadêmica" outcome="/jsf/tipoProducaoAcademica/tipoProducaoAcademica" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+				<p:menuitem value="Tipos de Usuários" outcome="/jsf/tipoUsuario/tipoUsuario" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			</p:submenu>
 			
 			<f:facet name="options">
