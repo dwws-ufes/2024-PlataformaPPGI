@@ -2,16 +2,20 @@ package br.ufes.inf.ppgi.plataformaPpgi.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -56,6 +60,10 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 	@NotNull
 	@Column(name="indProjetoIndependente")
 	private Character indProjetoIndependente;
+	
+	@Transient
+	@OneToMany(mappedBy="referencia", fetch=FetchType.EAGER)
+	private List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademica;
 
 	public Integer getId() {
 		return idProducaoAcademica;
@@ -119,6 +127,22 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 
 	public void setIndProjetoIndependente(Character indProjetoIndependente) {
 		this.indProjetoIndependente = indProjetoIndependente;
+	}
+
+	public Integer getIdProducaoAcademica() {
+		return idProducaoAcademica;
+	}
+
+	public void setIdProducaoAcademica(Integer idProducaoAcademica) {
+		this.idProducaoAcademica = idProducaoAcademica;
+	}
+
+	public List<PesquisadorProducaoAcademica> getListaPesquisadorProducaoAcademica() {
+		return listaPesquisadorProducaoAcademica;
+	}
+
+	public void setListaPesquisadorProducaoAcademica(List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademica) {
+		this.listaPesquisadorProducaoAcademica = listaPesquisadorProducaoAcademica;
 	}
 
 	@Override

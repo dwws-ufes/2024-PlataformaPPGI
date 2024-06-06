@@ -123,11 +123,11 @@ public class UsuarioController implements Serializable{
 		usuario = usuarioService.recuperarPorId(usuarioSelecionado.getId());
 	}
 	
-	public void novoPesquisador() {
+	public void novoUsuario() {
 		usuario = new Usuario();
 	}
 	
-	public void cancelarPesquisador() {
+	public void cancelarUsuario() {
 		usuario = new Usuario();
 	}
 	

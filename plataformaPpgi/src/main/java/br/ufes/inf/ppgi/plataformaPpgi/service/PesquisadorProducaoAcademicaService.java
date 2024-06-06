@@ -1,11 +1,13 @@
 package br.ufes.inf.ppgi.plataformaPpgi.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.PesquisadorProducaoAcademica;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.ProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.GenericDAO;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.PesquisadorProducaoAcademicaDAO;
 
@@ -31,5 +33,9 @@ public class PesquisadorProducaoAcademicaService extends CRUDService<Pesquisador
 
 	public void setPesquisadorProducaoAcademicaDAO(PesquisadorProducaoAcademicaDAO pesquisadorProducaoAcademicaDAO) {
 		this.pesquisadorProducaoAcademicaDAO = pesquisadorProducaoAcademicaDAO;
+	}
+	
+	public List<PesquisadorProducaoAcademica> recuperarPorProducaoAcademica(ProducaoAcademica producaoAcademica){
+		return pesquisadorProducaoAcademicaDAO.recuperarPorProducaoAcademica(producaoAcademica);
 	}
 }

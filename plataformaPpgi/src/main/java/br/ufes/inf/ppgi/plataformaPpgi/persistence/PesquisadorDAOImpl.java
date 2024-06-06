@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
 
 @Repository
 public class PesquisadorDAOImpl extends GenericDAOImpl<Pesquisador> implements PesquisadorDAO{
@@ -23,5 +24,19 @@ public class PesquisadorDAOImpl extends GenericDAOImpl<Pesquisador> implements P
 			return null;
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Pesquisador> recuperarAtivosPorProjeto(Projeto projeto) {
+		List<Pesquisador> pesquisador = new ArrayList<Pesquisador>();
+		pesquisador = super.getEntityManager().createQuery("select p from Pesquisador p "
+				+ "inner join PesquisadorProjeto pp on pp.pesquisador.idPesquisador = p.idPesquisador "
+				+ "where pp.projeto.id = :idProjeto and pp.projeto.dataFim is null "
+				+ "and pp.dataFim is null").setParameter("idProjeto", projeto.getId()).getResultList();
+		if (pesquisador.size() > 0){
+			return pesquisador;
+		}else{
+			return new ArrayList<Pesquisador>();
+		}
 	}
 }

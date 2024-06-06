@@ -78,16 +78,19 @@
 					    <p:selectOneRadio id="line" value="#{producaoAcademicaController.producaoAcademica.indProjetoIndependente}" layout="lineDirection">
 				            <f:selectItem itemLabel="Sim" itemValue="S"/>
 				            <f:selectItem itemLabel="Não" itemValue="N"/>
+				            <p:ajax process="@this" update="projeto, pesquisadores" event="change" listener="#{producaoAcademicaController.indicaProjetoIndependente}"/>
 				        </p:selectOneRadio>
 				        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
 				        	<p:column>
 					       		<h:outputText value="Projeto:"/>
 								<p:selectOneMenu name="projeto" id="projeto" filter="true" filterMatchMode="contains" autoWidth="false" 
+								disabled="#{producaoAcademicaController.producaoAcademica.indProjetoIndependente == 'S'.charAt(0) ? 'true' : 'false'}"
 								  value="#{producaoAcademicaController.producaoAcademica.projeto}" converter="entityConverter">
 									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 									<f:selectItems
 										value="#{producaoAcademicaController.listaProjetos}"
 										var="itemLista" itemLabel="#{itemLista.nomeProjeto}" itemValue="#{itemLista}"/>
+									<p:ajax process="@this" update="pesquisadores" event="change" listener="#{producaoAcademicaController.onSelecetProjeto}"/>
 								</p:selectOneMenu>
 							</p:column>
 							<p:column>
@@ -102,7 +105,7 @@
 					       	</p:column>
 					       	<p:column>
 					       		<h:outputText value="Area de Conhecimento:"/>
-								<p:selectOneMenu name="area" id="areaConhecimento" filter="true" filterMatchMode="contains" autoWidth="false" 
+								<p:selectOneMenu name="area" id="areaConhecimento" filter="true" filterMatchMode="contains" autoWidth="false" required="true" requiredMessage="Selecione a área de conhecimento"
 								  value="#{producaoAcademicaController.producaoAcademica.areaConhecimento}" converter="entityConverter">
 									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 									<f:selectItems
@@ -110,10 +113,36 @@
 										var="itemLista" itemLabel="#{itemLista.descricaoAreaConhecimento}" itemValue="#{itemLista}"/>
 								</p:selectOneMenu>
 							</p:column>
+							<p:column>
+					       		<h:outputText value="Lista de Pesquisadores envolvidos:"/>
+								<p:selectOneMenu name="pesquisadores" id="pesquisadores" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{producaoAcademicaController.pesquisador}" converter="entityConverter">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{producaoAcademicaController.listaPesquisador}"
+										var="itemLista" itemLabel="#{itemLista.pessoa.nomePessoa} - #{itemLista.tipoPesquisador.nomeTipoPesquisador}" itemValue="#{itemLista}"/>
+									<p:ajax process="@this" update="panelGrupo" event="change" listener="#{producaoAcademicaController.onSelecetPesquisador}"/>
+								</p:selectOneMenu>
+							</p:column>
 				        </p:panelGrid>
+				        <br />
+				        <h:panelGroup id="panelGrupo">
+					        <ui:repeat value="#{producaoAcademicaController.listaPesquisadorProducaoAcademcia}" var="pesquisador">				        					
+								<h:outputText value="#{pesquisador.pesquisador.pessoa.nomePessoa} - #{pesquisador.pesquisador.tipoPesquisador.nomeTipoPesquisador}" id="nomePesquisadorRepeat"/>
+								<p:selectOneMenu name="papelPesquisador" filter="true" filterMatchMode="contains" style="width:200px" id="papelPesquisadorRepeat"
+									  value="#{pesquisador.papelPesquisador}" converter="entityConverter" required="true" requiredMessage="Selecione o papel do pesquisador">
+										<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+										<f:selectItems
+											value="#{producaoAcademicaController.listaPapelPesquisador}"
+											var="itemLista" itemLabel="#{itemLista.nomePapel}" itemValue="#{itemLista}"/>
+								</p:selectOneMenu>							
+								<br />
+							</ui:repeat>
+						</h:panelGroup>				        
 					    <p:growl id="mensagemSalvarProducaoAcademica" showDetail="true">
-					      	<p:autoUpdate />
+					    	<p:autoUpdate />
 					    </p:growl>
+					    <br />
 					    <div class="ui-fluid" align="center">
 				          	  <p:commandButton id="producaoAcademicaSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px" action="#{producaoAcademicaController.salvarProducaoAcademica}" update="formDados"/>
 				          	  <p:commandButton id="producaoAcademicaCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px" action="#{producaoAcademicaController.cancelarProducaoAcademica}"

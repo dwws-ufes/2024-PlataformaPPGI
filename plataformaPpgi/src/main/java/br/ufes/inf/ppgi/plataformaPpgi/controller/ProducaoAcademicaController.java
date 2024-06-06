@@ -13,11 +13,15 @@ import javax.faces.context.FacesContext;
 import javax.validation.ValidationException;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.AreaConhecimento;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.PapelPesquisador;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.PesquisadorProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.ProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.TipoProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.service.AreaConhecimentoService;
+import br.ufes.inf.ppgi.plataformaPpgi.service.PapelPesquisadorService;
+import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorProducaoAcademicaService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.ProducaoAcademicaService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.ProjetoService;
@@ -47,28 +51,41 @@ public class ProducaoAcademicaController implements Serializable{
 	@ManagedProperty(value="#{projetoService}")
 	private ProjetoService projetoService;
 	
+	@ManagedProperty(value="#{papelPesquisadorService}")
+	private PapelPesquisadorService papelPesquisadorService;
+	
+	@ManagedProperty(value="#{pesquisadorProducaoAcademicaService}")
+	private PesquisadorProducaoAcademicaService pesquisadorProducaoAcademicaService;
+	
 	private ProducaoAcademica producaoAcademica;
 	private ProducaoAcademica producaoAcademicaSelecionada;
 	
 	private List<ProducaoAcademica> listaProducaoAcademica;
 	private List<TipoProducaoAcademica> listaTipoProducaoAcademica;
 	private List<Pesquisador> listaPesquisador;
+	private Pesquisador pesquisador;
 	private List<Projeto> listaProjetos;
 	private List<AreaConhecimento> listaAreaConhecimento;
+	private List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademcia;
+	private List<PapelPesquisador> listaPapelPesquisador;
 	
 	@PostConstruct
 	public void init() {
 		producaoAcademica = new ProducaoAcademica();
+		producaoAcademica.setIndProjetoIndependente('N');
 		listaProducaoAcademica = new ArrayList<ProducaoAcademica>();
 		listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
 		listaTipoProducaoAcademica = new ArrayList<TipoProducaoAcademica>();
 		listaTipoProducaoAcademica = tipoProducaoAcademicaService.recuperarTodos();
 		listaPesquisador = new ArrayList<Pesquisador>();
-		listaPesquisador = pesquisadorService.recuperarTodos();
 		listaProjetos = new ArrayList<Projeto>();
 		listaProjetos = projetoService.recuperarTodos();
 		listaAreaConhecimento = new ArrayList<AreaConhecimento>();
 		listaAreaConhecimento = areaConhecimentoService.recuperarTodos();
+		listaPapelPesquisador = new ArrayList<PapelPesquisador>();
+		listaPapelPesquisador = papelPesquisadorService.recuperarTodos();
+		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
+		pesquisador = new Pesquisador();
 	}
 
 	public ProjetoService getProjetoService() {
@@ -167,22 +184,93 @@ public class ProducaoAcademicaController implements Serializable{
 		this.listaAreaConhecimento = listaAreaConhecimento;
 	}
 
+	public List<PesquisadorProducaoAcademica> getListaPesquisadorProducaoAcademcia() {
+		return listaPesquisadorProducaoAcademcia;
+	}
+
+	public void setListaPesquisadorProducaoAcademcia(List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademcia) {
+		this.listaPesquisadorProducaoAcademcia = listaPesquisadorProducaoAcademcia;
+	}
+
+	public List<PapelPesquisador> getListaPapelPesquisador() {
+		return listaPapelPesquisador;
+	}
+
+	public void setListaPapelPesquisador(List<PapelPesquisador> listaPapelPesquisador) {
+		this.listaPapelPesquisador = listaPapelPesquisador;
+	}
+
+	public PapelPesquisadorService getPapelPesquisadorService() {
+		return papelPesquisadorService;
+	}
+
+	public void setPapelPesquisadorService(PapelPesquisadorService papelPesquisadorService) {
+		this.papelPesquisadorService = papelPesquisadorService;
+	}
+
+	public PesquisadorProducaoAcademicaService getPesquisadorProducaoAcademicaService() {
+		return pesquisadorProducaoAcademicaService;
+	}
+
+	public void setPesquisadorProducaoAcademicaService(
+			PesquisadorProducaoAcademicaService pesquisadorProducaoAcademicaService) {
+		this.pesquisadorProducaoAcademicaService = pesquisadorProducaoAcademicaService;
+	}
+
+	public Pesquisador getPesquisador() {
+		return pesquisador;
+	}
+
+	public void setPesquisador(Pesquisador pesquisador) {
+		this.pesquisador = pesquisador;
+	}
+
 	public void onRowSelectProducaoAcademica(){
 		producaoAcademica = producaoAcademicaService.recuperarPorId(producaoAcademicaSelecionada.getId());
+		listaPesquisadorProducaoAcademcia = pesquisadorProducaoAcademicaService.recuperarPorProducaoAcademica(producaoAcademicaSelecionada);
 	}
 	
 	public void novoProducaoAcademica() {
 		producaoAcademica = new ProducaoAcademica();
+		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
+		pesquisador = new Pesquisador();
+		producaoAcademica.setIndProjetoIndependente('N');
 	}
 	
 	public void cancelarProducaoAcademica() {
 		producaoAcademica = new ProducaoAcademica();
+		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
+		pesquisador = new Pesquisador();
+	}
+	
+	public void indicaProjetoIndependente() {
+		if(producaoAcademica.getIndProjetoIndependente().equals('S')) {
+			producaoAcademica.setProjeto(null);
+			setListaPesquisador(pesquisadorService.recuperarTodos());
+		} else {
+			setListaPesquisador(new ArrayList<Pesquisador>());
+		}
+	}
+	
+	public void onSelecetProjeto() {
+		listaPesquisador = pesquisadorService.recuperarAtivosPorProjeto(producaoAcademica.getProjeto());
+		pesquisador = new Pesquisador();
+	}
+	
+	public void onSelecetPesquisador() {
+		listaPesquisadorProducaoAcademcia.add(new PesquisadorProducaoAcademica());
+		listaPesquisadorProducaoAcademcia.get(listaPesquisadorProducaoAcademcia.size()-1).setPesquisador(pesquisador);
+		listaPesquisadorProducaoAcademcia.get(listaPesquisadorProducaoAcademcia.size()-1).setProducaoAcademica(producaoAcademica);
 	}
 	
 	public void salvarProducaoAcademica(){
 		try {
 			
 			producaoAcademicaService.salvar(producaoAcademica);
+			for(PesquisadorProducaoAcademica pesquisadorProducaoAcademica : listaPesquisadorProducaoAcademcia) {
+				pesquisadorProducaoAcademicaService.salvar(pesquisadorProducaoAcademica);
+			}
+			
 			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
 			producaoAcademica = new ProducaoAcademica();
 			

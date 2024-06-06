@@ -1,11 +1,13 @@
 package br.ufes.inf.ppgi.plataformaPpgi.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.GenericDAO;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.PesquisadorDAO;
 
@@ -35,5 +37,9 @@ public class PesquisadorService extends CRUDService<Pesquisador> implements Seri
 	
 	public Pesquisador recuperaCpfExistente(String cpf) {
 		return pesquisadorDAO.recuperaCpfExistente(cpf);
+	}
+	
+	public List<Pesquisador> recuperarAtivosPorProjeto(Projeto projeto){
+		return pesquisadorDAO.recuperarAtivosPorProjeto(projeto);
 	}
 }

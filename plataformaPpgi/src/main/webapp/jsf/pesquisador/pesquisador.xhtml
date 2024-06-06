@@ -56,21 +56,20 @@
 	          	<br />
 	       		<div class="ui-fluid">
 			        <p:panel id="dadosPesquisador" header="Pesquisador">
-						<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+						<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" id="panelPesquisador">
 						    <p:column>
-							    <h:outputText value="Nome do Pesquisador:"/>
-							    <p:inputText label="nomePesquisador" required="true" value="#{pesquisadorController.pesquisador.pessoa.nomePessoa}"
-							    requiredMessage="Informe o nome do pesquisador." converter="#{trimStringConverter}"/>
-							</p:column>
-							<p:column>
 						       	<h:outputText value="CPF:"/>
 							    <p:inputMask mask="999.999.999-99" id="numeroCpf" value="#{pesquisadorController.pesquisador.pessoa.cpf}"
 							  		  label="cpf" converter="#{trimStringConverter}"
 							  		  required="true" requiredMessage="Informe o número do CPF.">
-							  		  <p:ajax listener="#{pesquisadorController.validarCpf}" process="@this" update="numeroCpf" event="blur"/>
-							  	</p:inputMask>
-							  		  
+							  		  <p:ajax listener="#{pesquisadorController.validarCpf}" process="@this" update="numeroCpf, panelPesquisador" event="blur"/>
+							  	</p:inputMask>							  		  
 						    </p:column>
+						    <p:column>
+							    <h:outputText value="Nome do Pesquisador:"/>
+							    <p:inputText label="nomePesquisador" required="true" value="#{pesquisadorController.pesquisador.pessoa.nomePessoa}"
+							    requiredMessage="Informe o nome do pesquisador." converter="#{trimStringConverter}"/>
+							</p:column>							
 						    <p:column>
 						       	<h:outputText value="Orcid:"/>
 							    <p:inputText label="orcid" required="true" value="#{pesquisadorController.pesquisador.pessoa.orcid}"
