@@ -22,18 +22,12 @@ public class LoginController {
 	@ManagedProperty(value="#{mensagemService}")
 	private MensagemService mensagemService;
 
-	private HttpSession session;
 	private Usuario usuario;
 	
 	@PostConstruct
 	public void init() {
 		
 		usuario = new Usuario();
-		
-		FacesContext context = FacesContext.getCurrentInstance();  
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		this.session = request.getSession(false);
-
 	}
 
 	public UsuarioService getUsuarioService() {
@@ -60,17 +54,13 @@ public class LoginController {
 		this.mensagemService = mensagemService;
 	}
 
-	public HttpSession getSession() {
-		return session;
-	}
-
-	public void setSession(HttpSession session) {
-		this.session = session;
-	}
-
 	public String efetuarLogin() {
 		usuario = usuarioService.retornaUsuario(usuario.getLogin(), usuario.getSenha());
 		if(usuario	!= null) {
+			FacesContext context = FacesContext.getCurrentInstance();  
+			HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+			HttpSession session = request.getSession(false);
+			
 			session.setAttribute("tipoUsuario", usuario.getTipoUsuario().getNomeTipoUsuario());
 			session.setAttribute("login", usuario.getLogin());
 			session.setAttribute("nome", usuario.getPessoa().getNomePessoa());
