@@ -143,3 +143,15 @@ ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idUsuarioPes
 ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idUsuarioHomologacao`) REFERENCES `Usuario` (`idUsuario`);
 
 ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idProducaoAcademica`) REFERENCES `ProducaoAcademica` (`idProducaoAcademica`);
+
+insert into tipousuario
+values (1, 'Administrador', 'Administrador da Plataforma PPGI');
+
+insert into tipousuario
+values (2, 'Pesquisador', 'Pesquisador do PPGI');
+
+insert into pessoa
+values (1, 'Murilo Marchette', '105.166.337-75', '12345678999', 'murilo.marchette@ufes.br');
+
+insert into usuario
+values (1, 1, 'murilo', 'murilo123', '2050-12-31', 1);

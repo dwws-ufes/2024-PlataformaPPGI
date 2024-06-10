@@ -2,6 +2,7 @@ package br.ufes.inf.ppgi.plataformaPpgi.service;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.ProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.SolicitacaoHomologacaoProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.GenericDAO;
@@ -74,6 +76,10 @@ public class ProducaoAcademicaService extends CRUDService<ProducaoAcademica> imp
 	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
 		this.usuarioDAO = usuarioDAO;
 	}
+	
+	public List<ProducaoAcademica> recuperaPorPesquisadorAtivo(Pesquisador pesquisador){
+		return producaoAcademicaDAO.recuperaPorPesquisadorAtivo(pesquisador);
+	}
 
 	@Override
 	protected void depoisSalvar(ProducaoAcademica objeto) throws Exception {
@@ -82,7 +88,7 @@ public class ProducaoAcademicaService extends CRUDService<ProducaoAcademica> imp
 		HttpSession session = request.getSession(false);
 		
 		String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-		Integer idUsuario = (Integer) session.getAttribute("idUsurio");
+		Integer idUsuario = (Integer) session.getAttribute("idUsuario");
 		
 		if(tipoUsuario.equals("Pesquisador")){
 			solicitacaoHomologacaoProducaoAcademica = new SolicitacaoHomologacaoProducaoAcademica();

@@ -146,6 +146,7 @@ public class ProjetoController implements Serializable{
 	public void onRowSelectProjeto() {
 		projeto = projetoService.recuperarPorId(projetoSelecionado.getId());
 		listaPesquisadoresProjeto = pesquisadorProjetoService.recuperaPorProjeto(projeto);
+		pesquisadorProjeto = new PesquisadorProjeto();
 	}
 	
 	public void onRowSelectPesquisadorProjeto() {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Pessoa;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.GenericDAO;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.PesquisadorDAO;
@@ -41,5 +42,9 @@ public class PesquisadorService extends CRUDService<Pesquisador> implements Seri
 	
 	public List<Pesquisador> recuperarAtivosPorProjeto(Projeto projeto){
 		return pesquisadorDAO.recuperarAtivosPorProjeto(projeto);
+	}
+	
+	public Pesquisador recuperaAtivoPorPessoa(Pessoa pessoa) {
+		return pesquisadorDAO.recuperaAtivoPorPessoa(pessoa);
 	}
 }

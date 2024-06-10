@@ -1,6 +1,7 @@
 package br.ufes.inf.ppgi.plataformaPpgi.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,10 @@ public class SolicitacaoHomologacaoProducaoAcademicaService extends CRUDService<
 	public void setSolicitacaoHomologacaoProducaoAcademicaDAO(
 			SolicitacaoHomologacaoProducaoAcademicaDAO solicitacaoHomologacaoProducaoAcademicaDAO) {
 		this.solicitacaoHomologacaoProducaoAcademicaDAO = solicitacaoHomologacaoProducaoAcademicaDAO;
+	}
+	
+	public List<SolicitacaoHomologacaoProducaoAcademica> recuperarNaoHomologadas(){
+		return solicitacaoHomologacaoProducaoAcademicaDAO.recuperarNaoHomologadas();
 	}
 
 }

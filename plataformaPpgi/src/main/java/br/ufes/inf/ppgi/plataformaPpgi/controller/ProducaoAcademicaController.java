@@ -21,6 +21,7 @@ import br.ufes.inf.ppgi.plataformaPpgi.domain.PesquisadorProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.ProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Projeto;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.TipoProducaoAcademica;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Usuario;
 import br.ufes.inf.ppgi.plataformaPpgi.service.AreaConhecimentoService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.PapelPesquisadorService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorProducaoAcademicaService;
@@ -28,6 +29,7 @@ import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.ProducaoAcademicaService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.ProjetoService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.TipoProducaoAcademicaService;
+import br.ufes.inf.ppgi.plataformaPpgi.service.UsuarioService;
 
 @ManagedBean
 @ViewScoped
@@ -59,6 +61,9 @@ public class ProducaoAcademicaController implements Serializable{
 	@ManagedProperty(value="#{pesquisadorProducaoAcademicaService}")
 	private PesquisadorProducaoAcademicaService pesquisadorProducaoAcademicaService;
 	
+	@ManagedProperty(value="#{usuarioService}")
+	private UsuarioService usuarioService;
+	
 	private ProducaoAcademica producaoAcademica;
 	private ProducaoAcademica producaoAcademicaSelecionada;
 	
@@ -71,26 +76,41 @@ public class ProducaoAcademicaController implements Serializable{
 	private List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademcia;
 	private List<PapelPesquisador> listaPapelPesquisador;
 	private String tipoUsuario;
+	private Integer idUsuarioPesquisador;
+	private Usuario usuarioPesquisador;
+	private Pesquisador pesquisadorUsuario;
 	
 	@PostConstruct
-	public void init() {		
-		listaProducaoAcademica = new ArrayList<ProducaoAcademica>();
-		listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
-		listaTipoProducaoAcademica = new ArrayList<TipoProducaoAcademica>();
-		listaTipoProducaoAcademica = tipoProducaoAcademicaService.recuperarTodos();
-		listaPesquisador = new ArrayList<Pesquisador>();
-		listaProjetos = new ArrayList<Projeto>();
-		listaProjetos = projetoService.recuperarTodos();
-		listaAreaConhecimento = new ArrayList<AreaConhecimento>();
-		listaAreaConhecimento = areaConhecimentoService.recuperarTodos();
-		listaPapelPesquisador = new ArrayList<PapelPesquisador>();
-		listaPapelPesquisador = papelPesquisadorService.recuperarTodos();
-		
+	public void init() {
 		FacesContext context = FacesContext.getCurrentInstance();  
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();  
 		HttpSession session = request.getSession(false);
 		
 		tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		idUsuarioPesquisador = (Integer) session.getAttribute("idUsuario");
+		if(tipoUsuario.equals("Pesquisador")) {
+			setUsuarioPesquisador(usuarioService.recuperarPorId(idUsuarioPesquisador));
+			pesquisadorUsuario = pesquisadorService.recuperaAtivoPorPessoa(usuarioPesquisador.getPessoa());
+			listaProducaoAcademica = new ArrayList<ProducaoAcademica>();
+			listaProducaoAcademica = producaoAcademicaService.recuperaPorPesquisadorAtivo(pesquisadorUsuario);
+			listaProjetos = new ArrayList<Projeto>();
+			listaProjetos = projetoService.recuperaPorPesquisador(pesquisadorUsuario);
+			listaPesquisador = new ArrayList<Pesquisador>();
+			listaPesquisador.add(pesquisadorUsuario);
+		} else if(tipoUsuario.equals("Administrador")){
+			listaProducaoAcademica = new ArrayList<ProducaoAcademica>();
+			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();			
+			listaPesquisador = new ArrayList<Pesquisador>();
+			listaProjetos = new ArrayList<Projeto>();
+			listaProjetos = projetoService.recuperarTodos();
+			listaPesquisador = new ArrayList<Pesquisador>();			
+		}
+		listaTipoProducaoAcademica = new ArrayList<TipoProducaoAcademica>();
+		listaTipoProducaoAcademica = tipoProducaoAcademicaService.recuperarTodos();
+		listaPapelPesquisador = new ArrayList<PapelPesquisador>();
+		listaPapelPesquisador = papelPesquisadorService.recuperarTodos();
+		listaAreaConhecimento = new ArrayList<AreaConhecimento>();
+		listaAreaConhecimento = areaConhecimentoService.recuperarTodos();
 		
 		novoProducaoAcademica();
 	}
@@ -232,12 +252,44 @@ public class ProducaoAcademicaController implements Serializable{
 		this.tipoUsuario = tipoUsuario;
 	}
 
+	public Usuario getUsuarioPesquisador() {
+		return usuarioPesquisador;
+	}
+
+	public void setUsuarioPesquisador(Usuario usuarioPesquisador) {
+		this.usuarioPesquisador = usuarioPesquisador;
+	}
+
+	public UsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
 	public Pesquisador getPesquisador() {
 		return pesquisador;
 	}
 
 	public void setPesquisador(Pesquisador pesquisador) {
 		this.pesquisador = pesquisador;
+	}
+
+	public Integer getIdUsuarioPesquisador() {
+		return idUsuarioPesquisador;
+	}
+
+	public void setIdUsuarioPesquisador(Integer idUsuarioPesquisador) {
+		this.idUsuarioPesquisador = idUsuarioPesquisador;
+	}
+
+	public Pesquisador getPesquisadorUsuario() {
+		return pesquisadorUsuario;
+	}
+
+	public void setPesquisadorUsuario(Pesquisador pesquisadorUsuario) {
+		this.pesquisadorUsuario = pesquisadorUsuario;
 	}
 
 	public void onRowSelectProducaoAcademica(){
@@ -272,15 +324,28 @@ public class ProducaoAcademicaController implements Serializable{
 	public void indicaProjetoIndependente() {
 		if(producaoAcademica.getIndProjetoIndependente().equals('S')) {
 			producaoAcademica.setProjeto(null);
-			setListaPesquisador(pesquisadorService.recuperarTodos());
+			if(tipoUsuario.equals("Pesquisador")) {
+				listaPesquisador = new ArrayList<Pesquisador>();
+				listaPesquisador.add(pesquisadorUsuario);
+			} else {
+				listaPesquisador = new ArrayList<Pesquisador>();
+				listaPesquisador = pesquisadorService.recuperarTodos();
+			}
 		} else {
 			setListaPesquisador(new ArrayList<Pesquisador>());
+			listaProjetos = new ArrayList<Projeto>();
+			listaProjetos = projetoService.recuperaPorPesquisador(pesquisadorUsuario);
 		}
 	}
 	
 	public void onSelecetProjeto() {
-		listaPesquisador = pesquisadorService.recuperarAtivosPorProjeto(producaoAcademica.getProjeto());
-		pesquisador = new Pesquisador();
+		if(tipoUsuario.equals("Pesquisador")) {
+			listaPesquisador = new ArrayList<Pesquisador>();
+			listaPesquisador.add(pesquisadorUsuario);
+		} else {
+			listaPesquisador = pesquisadorService.recuperarAtivosPorProjeto(producaoAcademica.getProjeto());
+			pesquisador = new Pesquisador();
+		}
 	}
 	
 	public void onSelecetPesquisador() {
@@ -297,6 +362,11 @@ public class ProducaoAcademicaController implements Serializable{
 				pesquisadorProducaoAcademicaService.salvar(pesquisadorProducaoAcademica);
 			}
 			
+			if(tipoUsuario.equals("Pesquisador")) {
+				listaProducaoAcademica = producaoAcademicaService.recuperaPorPesquisadorAtivo(pesquisadorUsuario);
+			} else {
+				listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
+			}
 			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
 			novoProducaoAcademica();
 			
@@ -304,7 +374,11 @@ public class ProducaoAcademicaController implements Serializable{
 					"Produção acadêmica foi salvo com sucesso.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (ValidationException e) {
-			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
+			if(tipoUsuario.equals("Pesquisador")) {
+				listaProducaoAcademica = producaoAcademicaService.recuperaPorPesquisadorAtivo(pesquisadorUsuario);
+			} else {
+				listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
+			}
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao salvar a producão acadêmica.",
 					e.getMessage());
@@ -312,7 +386,11 @@ public class ProducaoAcademicaController implements Serializable{
 			e.printStackTrace();
 		} catch (Exception e) {
 
-			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
+			if(tipoUsuario.equals("Pesquisador")) {
+				listaProducaoAcademica = producaoAcademicaService.recuperaPorPesquisadorAtivo(pesquisadorUsuario);
+			} else {
+				listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
+			}
 
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao salvar a produção acadêmica.",
 					e.getMessage());

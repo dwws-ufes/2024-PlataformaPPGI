@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(schema = "plataformappgi", name="solicitacaohomologacaoproducaoacademica")
+@Table(schema = "plataformappgi", name="solicitacaohomologacaoprodacademica")
 public class SolicitacaoHomologacaoProducaoAcademica extends ObjetoPersistente implements Serializable{
 	
 	/**

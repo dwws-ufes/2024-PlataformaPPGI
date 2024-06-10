@@ -1,0 +1,33 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets"> 
+     
+    <ui:define name="conteudo">
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formHomologacao">
+				<br />
+				<p:outputLabel value="Homologar Produção Acadêmica:" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{homologarProducaoController.listaSolicitacao}" emptyMessage="Não há produções acadêmicas a serem homologadas" var="s" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{homologarProducaoController.solicitacaoSelecionada}" rowKey="#{s.id}">
+					<p:ajax event="rowSelect" listener="#{homologarProducaoController.onRowSelectSolicitacao}" update="formHomologacao" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Título da produção acadêmica
+						</f:facet>
+						#{s.producaoAcademica.tituloProducao}
+					</p:column>					
+					<p:column priority="1">
+						<f:facet name="header">
+							Situação de Homologação
+						</f:facet>
+						<h:outputText value="#{s.producaoAcademica.indHomologado == 'S'.charAt(0) ? 'Homologado' : 'Não Homologado'}"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
