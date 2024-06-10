@@ -61,6 +61,7 @@ public class LoginController {
 			HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 			HttpSession session = request.getSession(false);
 			
+			session.setAttribute("idUsuario", usuario.getId());
 			session.setAttribute("tipoUsuario", usuario.getTipoUsuario().getNomeTipoUsuario());
 			session.setAttribute("login", usuario.getLogin());
 			session.setAttribute("nome", usuario.getPessoa().getNomePessoa());

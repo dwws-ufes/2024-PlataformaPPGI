@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ValidationException;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.AreaConhecimento;
@@ -68,11 +70,10 @@ public class ProducaoAcademicaController implements Serializable{
 	private List<AreaConhecimento> listaAreaConhecimento;
 	private List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademcia;
 	private List<PapelPesquisador> listaPapelPesquisador;
+	private String tipoUsuario;
 	
 	@PostConstruct
-	public void init() {
-		producaoAcademica = new ProducaoAcademica();
-		producaoAcademica.setIndProjetoIndependente('N');
+	public void init() {		
 		listaProducaoAcademica = new ArrayList<ProducaoAcademica>();
 		listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
 		listaTipoProducaoAcademica = new ArrayList<TipoProducaoAcademica>();
@@ -84,8 +85,14 @@ public class ProducaoAcademicaController implements Serializable{
 		listaAreaConhecimento = areaConhecimentoService.recuperarTodos();
 		listaPapelPesquisador = new ArrayList<PapelPesquisador>();
 		listaPapelPesquisador = papelPesquisadorService.recuperarTodos();
-		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
-		pesquisador = new Pesquisador();
+		
+		FacesContext context = FacesContext.getCurrentInstance();  
+		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();  
+		HttpSession session = request.getSession(false);
+		
+		tipoUsuario = (String) session.getAttribute("tipoUsuario");
+		
+		novoProducaoAcademica();
 	}
 
 	public ProjetoService getProjetoService() {
@@ -217,6 +224,14 @@ public class ProducaoAcademicaController implements Serializable{
 		this.pesquisadorProducaoAcademicaService = pesquisadorProducaoAcademicaService;
 	}
 
+	public String getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(String tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+
 	public Pesquisador getPesquisador() {
 		return pesquisador;
 	}
@@ -235,10 +250,21 @@ public class ProducaoAcademicaController implements Serializable{
 		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
 		pesquisador = new Pesquisador();
 		producaoAcademica.setIndProjetoIndependente('N');
+		if(tipoUsuario.equals("Pesquisador")){
+			producaoAcademica.setIndHomologado('N');
+		} else {
+			producaoAcademica.setIndHomologado('S');
+		}
 	}
 	
 	public void cancelarProducaoAcademica() {
 		producaoAcademica = new ProducaoAcademica();
+		producaoAcademica.setIndProjetoIndependente('N');
+		if(tipoUsuario.equals("Pesquisador")){
+			producaoAcademica.setIndHomologado('N');
+		} else {
+			producaoAcademica.setIndHomologado('S');
+		}
 		listaPesquisadorProducaoAcademcia = new ArrayList<PesquisadorProducaoAcademica>();
 		pesquisador = new Pesquisador();
 	}
@@ -272,7 +298,7 @@ public class ProducaoAcademicaController implements Serializable{
 			}
 			
 			listaProducaoAcademica = producaoAcademicaService.recuperarTodos();
-			producaoAcademica = new ProducaoAcademica();
+			novoProducaoAcademica();
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Produção acadêmica salva com sucesso.",
 					"Produção acadêmica foi salvo com sucesso.");

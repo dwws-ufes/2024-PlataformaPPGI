@@ -7,6 +7,7 @@ CREATE TABLE `ProducaoAcademica` (
   `dataPublicacao` date NOT NULL,
   `idAreaConhecimento` integer NOT NULL,
   `indProjetoIndependente` char NOT NULL,
+  `indHomologado` char NOT NULL,
   PRIMARY KEY(idProducaoAcademica)
 );
 
@@ -100,6 +101,17 @@ CREATE TABLE `TipoUsuario` (
   PRIMARY KEY(idTipoUsuario)
 );
 
+CREATE TABLE `SolicitacaoHomologacaoProdAcademica` (
+  `idSolicitacaoHomologacaoProdAcad` integer NOT NULL AUTO_INCREMENT,
+  `dataSolicitacao` date NOT NULL,
+  `dataHomologacao` date,
+  `justificativa` varchar(255),
+  `idUsuarioHomologacao` integer,
+  `idUsuarioPesquisador` integer NOT NULL,
+  `idProducaoAcademica` integer NOT NULL,
+  PRIMARY KEY(idSolicitacaoHomologacaoProdAcad)
+);
+
 ALTER TABLE `PesquisadorProducaoAcademica` ADD FOREIGN KEY (`idPesquisador`) REFERENCES `Pesquisador` (`idPesquisador`);
 
 ALTER TABLE `PesquisadorProducaoAcademica` ADD FOREIGN KEY (`idProducaoAcademica`) REFERENCES `ProducaoAcademica` (`idProducaoAcademica`);
@@ -125,3 +137,9 @@ ALTER TABLE `Usuario` ADD FOREIGN KEY (`idTipoUsuario`) REFERENCES `TipoUsuario`
 ALTER TABLE `Pesquisador` ADD FOREIGN KEY (`idPessoa`) REFERENCES `Pessoa` (`idPessoa`);
 
 ALTER TABLE `Usuario` ADD FOREIGN KEY (`idPessoa`) REFERENCES `Pessoa` (`idPessoa`);
+
+ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idUsuarioPesquisador`) REFERENCES `Usuario` (`idUsuario`);
+
+ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idUsuarioHomologacao`) REFERENCES `Usuario` (`idUsuario`);
+
+ALTER TABLE `SolicitacaoHomologacaoProdAcademica` ADD FOREIGN KEY (`idProducaoAcademica`) REFERENCES `ProducaoAcademica` (`idProducaoAcademica`);

@@ -26,6 +26,9 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 6102964772951327325L;
+	
+	public final static Character IND_PROJETO_INDEPENDENTE = 'N';
+	public final static Character IND_HOMOLOGADO = 'N';
 
 	@Id
 	@Column(name="idProducaoAcademica")
@@ -59,7 +62,11 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 	
 	@NotNull
 	@Column(name="indProjetoIndependente")
-	private Character indProjetoIndependente;
+	private Character indProjetoIndependente = IND_PROJETO_INDEPENDENTE;
+	
+	@NotNull
+	@Column(name="indHomologado")
+	private Character indHomologado = IND_HOMOLOGADO;
 	
 	@Transient
 	@OneToMany(mappedBy="referencia", fetch=FetchType.EAGER)
@@ -137,6 +144,14 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 		this.idProducaoAcademica = idProducaoAcademica;
 	}
 
+	public Character getIndHomologado() {
+		return indHomologado;
+	}
+
+	public void setIndHomologado(Character indHomologado) {
+		this.indHomologado = indHomologado;
+	}
+
 	public List<PesquisadorProducaoAcademica> getListaPesquisadorProducaoAcademica() {
 		return listaPesquisadorProducaoAcademica;
 	}
@@ -148,7 +163,8 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 	@Override
 	public int hashCode() {
 		return Objects.hash(areaConhecimento, dataPublicacao, descricaoProducaoAcademica, idProducaoAcademica,
-				indProjetoIndependente, projeto, tipoProducaoAcademica, tituloProducao);
+				indHomologado, indProjetoIndependente, listaPesquisadorProducaoAcademica, projeto,
+				tipoProducaoAcademica, tituloProducao);
 	}
 
 	@Override
@@ -164,7 +180,9 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 				&& Objects.equals(dataPublicacao, other.dataPublicacao)
 				&& Objects.equals(descricaoProducaoAcademica, other.descricaoProducaoAcademica)
 				&& Objects.equals(idProducaoAcademica, other.idProducaoAcademica)
+				&& Objects.equals(indHomologado, other.indHomologado)
 				&& Objects.equals(indProjetoIndependente, other.indProjetoIndependente)
+				&& Objects.equals(listaPesquisadorProducaoAcademica, other.listaPesquisadorProducaoAcademica)
 				&& Objects.equals(projeto, other.projeto)
 				&& Objects.equals(tipoProducaoAcademica, other.tipoProducaoAcademica)
 				&& Objects.equals(tituloProducao, other.tituloProducao);

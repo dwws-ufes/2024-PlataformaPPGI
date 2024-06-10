@@ -46,6 +46,13 @@
 						</f:facet>
 						#{p.areaConhecimento.descricaoAreaConhecimento}
 					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Situação de Homologação
+						</f:facet>
+						<h:outputText value="#{p.indHomologado == 'S'.charAt(0) ? 'Homologado' : 'Não Homologado'}" 
+						style="color: #{p.indHomologado == 'S'.charAt(0) ? 'green' : 'red'}"/>
+					</p:column>
 				</p:dataTable>
 				<br />
 				<p:divider />
