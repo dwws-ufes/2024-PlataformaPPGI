@@ -19,7 +19,21 @@
 							Título da produção acadêmica
 						</f:facet>
 						#{s.producaoAcademica.tituloProducao}
-					</p:column>					
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Pesquisador
+						</f:facet>
+						#{s.usuarioPesquisador.pessoa.nomePessoa}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Data Solicitação
+						</f:facet>
+						<h:outputText value="#{s.dataSolicitacao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>			
 					<p:column priority="1">
 						<f:facet name="header">
 							Situação de Homologação
@@ -27,6 +41,38 @@
 						<h:outputText value="#{s.producaoAcademica.indHomologado == 'S'.charAt(0) ? 'Homologado' : 'Não Homologado'}"/>
 					</p:column>
 				</p:dataTable>
+				<br />
+				<div class="ui-fluid">
+			        <p:panel id="dadosSolicitacao" header="Solicitação Homologação Produção Acadêmica">
+						<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-3">
+							<p:column>
+								 <h:outputText value="Justificativa:"/>
+								 <p:inputTextarea value="#{homologarProducaoController.solicitacao.justificativa}" converter="#{trimStringConverter}" />
+							</p:column>
+							<p:column>
+						        <h:outputText value="Data da homologação:"/>
+						        <p:datePicker pattern="dd/MM/yyyy" locale="pt_BR" mask="true" required="true" requiredMessage="Informe a data de publicação." 
+						        value="#{producaoAcademicaController.producaoAcademica.dataPublicacao}"/>
+					       	</p:column>
+							<p:column>
+							    <h:outputText value="Homologar Solicitação de Produção Acadêmica?"/>
+							    <p:selectOneRadio id="line" value="#{homologarProducaoController.solicitacao.producaoAcademica.indHomologado}" layout="lineDirection">
+						            <f:selectItem itemLabel="Sim" itemValue="S"/>
+						            <f:selectItem itemLabel="Não" itemValue="N"/>
+						        </p:selectOneRadio>
+							</p:column>
+						</p:panelGrid>
+					</p:panel>
+					<p:growl id="mensagemSalvarSolicitacao" showDetail="true">
+				    	<p:autoUpdate />
+				    </p:growl>
+				    <br />
+				    <div class="ui-fluid" align="center">
+			          	  <p:commandButton id="solicitacaoSalvar" value="Salvar" icon="ui-icon-disk" style="width:100px" action="#{homologarProducaoController.salvarSolicitacao}" update="formHomologacao"/>
+			          	  <p:commandButton id="solicitacaoCancelar" value="Cancelar" icon="ui-icon-close" partialSubmit="true" process="@this" style="width:100px" action="#{homologarProducaoController.cancelarSolicitacao}"
+			          	  update="formHomologacao"/>
+			         </div>
+				</div>
 			</h:form>
 		</div>
 	</ui:define>

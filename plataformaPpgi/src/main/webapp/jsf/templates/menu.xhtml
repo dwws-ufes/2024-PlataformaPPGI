@@ -20,7 +20,7 @@
 			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : sessionScope.tipoUsuario eq 'Pesquisador' ? 'true' : 'false'}"/>
 			
 			<p:menuitem value="Homologar Produção Acadêmica" outcome="/jsf/producaoAcademica/homologarProducao" icon="fa fa-newspaper-o" 
-			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : sessionScope.tipoUsuario eq 'Pesquisador' ? 'true' : 'false'}"/>
+			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
 			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
