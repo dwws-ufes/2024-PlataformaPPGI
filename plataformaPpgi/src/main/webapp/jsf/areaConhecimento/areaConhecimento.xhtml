@@ -44,7 +44,9 @@
 	          				<p:column>
 								 <h:outputText value="Nome da Área de Conhecimento:"/>
 								 <p:inputText label="nomeAreaConhecimento" value="#{areaConhecimentoController.areaConhecimento.descricaoAreaConhecimento}" required="true" requiredMessage="Informe o nome da área de conhecimento."
-								 converter="#{trimStringConverter}"/>
+								 converter="#{trimStringConverter}">
+								 	<p:ajax process="@this" update="resumo" event="blur" listener="#{areaConhecimentoController.buscarDescricaoArea}"/>
+								 </p:inputText>
 							</p:column>	
 							<p:column>
 								 <h:outputText value="Área de conhecimento superior:"/>
@@ -57,6 +59,13 @@
 								 </p:selectOneMenu>
 
 							</p:column>         				
+	          			</p:panelGrid>
+	          			<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+	          				<p:column>
+								 <h:outputText value="Resumo:"/>
+								 <p:inputTextarea value="#{areaConhecimentoController.areaConhecimento.resumo}" readonly="true" autoResize="true" converter="#{trimStringConverter}" id="resumo">
+								 </p:inputTextarea>
+							</p:column>
 	          			</p:panelGrid>
 	          			<br />
 	          			<p:growl id="mensagemSalvar" showDetail="true" />

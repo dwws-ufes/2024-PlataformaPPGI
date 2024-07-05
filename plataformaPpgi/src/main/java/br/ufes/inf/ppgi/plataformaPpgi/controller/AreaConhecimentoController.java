@@ -12,6 +12,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.validation.ValidationException;
 
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+
 import br.ufes.inf.ppgi.plataformaPpgi.domain.AreaConhecimento;
 import br.ufes.inf.ppgi.plataformaPpgi.service.AreaConhecimentoService;
 
@@ -82,6 +88,33 @@ public class AreaConhecimentoController implements Serializable {
 	
 	public void cancelarAreaConhecimento() {
 		areaConhecimento = new AreaConhecimento();
+	}
+	
+	public void buscarDescricaoArea() {
+		String busca = areaConhecimento.getDescricaoAreaConhecimento();
+		String query = "";
+		if(busca != null) {
+			query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
+					"PREFIX dbp: <http://dbpedia.org/property/>\n" +
+					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+					"SELECT ?desc\n" +
+					"WHERE {\n" +
+					" ?uri a dbo:City ;\n" +
+					" dbp:name \"Rio de Janeiro\"@en ;\n" +
+					" rdfs:comment ?desc .\n" +
+					"FILTER (langMatches(lang(?desc), \"EN\"))\n" +
+					"}";
+		}
+		
+		QueryExecution queryExecution =	QueryExecutionFactory.sparqlService("https://dbpedia.org/sparql", query);
+		
+		ResultSet resultado = queryExecution.execSelect();
+		
+		if (resultado.hasNext()) {
+			QuerySolution querySolution = resultado.next();
+			Literal literal = querySolution.getLiteral("desc");
+			areaConhecimento.setResumo("" + literal.getValue());
+		}		
 	}
 
 	public void salvarAreaConhecimento(){
