@@ -61,6 +61,7 @@ CREATE TABLE `AreaConhecimento` (
   `idAreaConhecimento` integer NOT NULL AUTO_INCREMENT,
   `descricaoAreaConhecimento` varchar(255) NOT NULL,
   `idAreaConhecimentoSup` integer,
+  `resumo` text,
   PRIMARY KEY(idAreaConhecimento)
 );
 
