@@ -69,7 +69,7 @@ public class ProducaoAcademica extends ObjetoPersistente implements Serializable
 	private Character indHomologado = IND_HOMOLOGADO;
 	
 	@Transient
-	@OneToMany(mappedBy="referencia", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="referencia", fetch=FetchType.LAZY)
 	private List<PesquisadorProducaoAcademica> listaPesquisadorProducaoAcademica;
 
 	public Integer getId() {
