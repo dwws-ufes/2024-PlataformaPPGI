@@ -100,6 +100,16 @@
 										var="itemLista" itemLabel="#{itemLista.nomeTipoPesquisador}" itemValue="#{itemLista}"/>
 								 </p:selectOneMenu>
 							</p:column>
+							<p:column>
+					       		<h:outputText value="Universidade de Origem:"/>
+								 <p:selectOneMenu name="universidade" id="universidade" filter="true" filterMatchMode="contains" autoWidth="false" 
+								  value="#{pesquisadorController.pesquisador.universidade}" converter="entityConverter">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems
+										value="#{pesquisadorController.listaUniversidades}"
+										var="itemLista" itemLabel="#{itemLista.nomeUniversidade} - #{itemLista.local}" itemValue="#{itemLista}"/>
+								 </p:selectOneMenu>
+							</p:column>
 					    </p:panelGrid>
 					    <p:separator/>
 					    <p:growl id="mensagemSalvarPesquisador" showDetail="true">

@@ -46,6 +46,10 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 	@JoinColumn(name="idTipoPesquisador")
 	private TipoPesquisador tipoPesquisador;
 	
+	@ManyToOne
+	@JoinColumn(name="idUniversidade")
+	private Universidade universidade;
+	
 	public Pesquisador() {
 		this.pessoa = new Pessoa();
 		this.tipoPesquisador = new TipoPesquisador();
@@ -97,6 +101,14 @@ public class Pesquisador extends ObjetoPersistente implements Serializable {
 
 	public void setTipoPesquisador(TipoPesquisador tipoPesquisador) {
 		this.tipoPesquisador = tipoPesquisador;
+	}
+
+	public Universidade getUniversidade() {
+		return universidade;
+	}
+
+	public void setUniversidade(Universidade universidade) {
+		this.universidade = universidade;
 	}
 
 	@Override

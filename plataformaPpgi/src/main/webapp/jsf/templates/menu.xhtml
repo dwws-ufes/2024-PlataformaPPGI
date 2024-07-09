@@ -24,6 +24,8 @@
 			
 			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
+			<p:menuitem value="Universidades" outcome="/jsf/universidade/universidade" icon="fa fa-university" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			
 			<p:submenu label="Cadastro de Tipos" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}">
 				<p:menuitem value="Tipos de Pesquisadores" outcome="/jsf/tipoPesquisador/tipoPesquisador" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 				<p:menuitem value="Tipos de Papel de Pesquisadores" outcome="/jsf/papelPesquisador/papelPesquisador" icon="fa fa-list" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>

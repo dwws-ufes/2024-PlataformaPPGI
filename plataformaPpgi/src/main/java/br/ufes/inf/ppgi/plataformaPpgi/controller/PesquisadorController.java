@@ -15,9 +15,11 @@ import javax.validation.ValidationException;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pesquisador;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.Pessoa;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.TipoPesquisador;
+import br.ufes.inf.ppgi.plataformaPpgi.domain.Universidade;
 import br.ufes.inf.ppgi.plataformaPpgi.service.PesquisadorService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.PessoaService;
 import br.ufes.inf.ppgi.plataformaPpgi.service.TipoPesquisadorService;
+import br.ufes.inf.ppgi.plataformaPpgi.service.UniversidadeService;
 import br.ufes.inf.utils.ValidarCpf;
 
 @ManagedBean
@@ -38,12 +40,16 @@ public class PesquisadorController implements Serializable{
 	@ManagedProperty(value="#{tipoPesquisadorService}")
 	private TipoPesquisadorService tipoPesquisadorService;
 	
+	@ManagedProperty(value="#{universidadeService}")
+	private UniversidadeService universidadeService;
+	
 	private Pesquisador pesquisador;
 	private Pesquisador pesquisadorSelecionado;
 	private Pessoa pessoa;
 	
 	private List<Pesquisador> listaPesquisador;
-	private List<TipoPesquisador> listaTipoPesquisador;	
+	private List<TipoPesquisador> listaTipoPesquisador;
+	private List<Universidade> listaUniversidades;
 	
 	@PostConstruct
 	public void init() {
@@ -53,6 +59,8 @@ public class PesquisadorController implements Serializable{
 		pessoa = new Pessoa();
 		listaTipoPesquisador = new ArrayList<TipoPesquisador>();
 		listaTipoPesquisador = tipoPesquisadorService.recuperarTodos();
+		listaUniversidades = new ArrayList<Universidade>();
+		listaUniversidades = universidadeService.recuperarTodos();
 	}
 
 	public PesquisadorService getPesquisadorService() {
@@ -117,6 +125,22 @@ public class PesquisadorController implements Serializable{
 
 	public void setListaTipoPesquisador(List<TipoPesquisador> listaTipoPesquisador) {
 		this.listaTipoPesquisador = listaTipoPesquisador;
+	}
+
+	public UniversidadeService getUniversidadeService() {
+		return universidadeService;
+	}
+
+	public void setUniversidadeService(UniversidadeService universidadeService) {
+		this.universidadeService = universidadeService;
+	}
+
+	public List<Universidade> getListaUniversidades() {
+		return listaUniversidades;
+	}
+
+	public void setListaUniversidades(List<Universidade> listaUniversidades) {
+		this.listaUniversidades = listaUniversidades;
 	}
 
 	public void onRowSelectPesquisador(){

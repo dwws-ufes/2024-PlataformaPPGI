@@ -23,6 +23,7 @@ CREATE TABLE `Pesquisador` (
   `idPessoa` integer NOT NULL,
   `dataInicioPrograma` date NOT NULL,
   `dataFimPrograma` date,
+  `idUniversidade` integer,
   PRIMARY KEY(idPesquisador)
 );
 
@@ -101,6 +102,14 @@ CREATE TABLE `TipoUsuario` (
   PRIMARY KEY(idTipoUsuario)
 );
 
+CREATE TABLE `universidade` (
+  `idUniversidade` integer NOT NULL AUTO_INCREMENT,
+  `nomeUniversidade` varchar(255) NOT NULL,
+  `descricaoUniversidade` text,
+  `local` varchar(255),
+  PRIMARY KEY(idUniversidade)
+);
+
 ALTER TABLE `PesquisadorProducaoAcademica` ADD FOREIGN KEY (`idPesquisador`) REFERENCES `Pesquisador` (`idPesquisador`);
 
 ALTER TABLE `PesquisadorProducaoAcademica` ADD FOREIGN KEY (`idProducaoAcademica`) REFERENCES `ProducaoAcademica` (`idProducaoAcademica`);
@@ -124,5 +133,7 @@ ALTER TABLE `ProducaoAcademica` ADD FOREIGN KEY (`idAreaConhecimento`) REFERENCE
 ALTER TABLE `Usuario` ADD FOREIGN KEY (`idTipoUsuario`) REFERENCES `TipoUsuario` (`idTipoUsuario`);
 
 ALTER TABLE `Pesquisador` ADD FOREIGN KEY (`idPessoa`) REFERENCES `Pessoa` (`idPessoa`);
+
+ALTER TABLE `Pesquisador` ADD FOREIGN KEY (`idUniversidade`) REFERENCES `universidade` (`idUniversidade`);
 
 ALTER TABLE `Usuario` ADD FOREIGN KEY (`idPessoa`) REFERENCES `Pessoa` (`idPessoa`);

@@ -1,0 +1,78 @@
+<ui:composition template="/jsf/templates/template.xhtml"
+  	 xmlns="http://www.w3.org/1999/xhtml"  
+     xmlns:h="http://java.sun.com/jsf/html"  
+     xmlns:f="http://java.sun.com/jsf/core"  
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:ui="http://java.sun.com/jsf/facelets">
+        
+    <f:metadata>
+        <f:viewAction action="#{loginController.verificaTipoUsuarioPesquisador}" />
+    </f:metadata>
+    <ui:define name="conteudo">
+		<div class="ui-fluid" style="padding: 90px;">
+			<h:form id="formUniversidade">
+				<br />
+				<p:outputLabel value="Universidades" style="color: #009fe6" />
+				<br />
+				<p:dataTable value="#{universidadeController.listaUniversidades}" emptyMessage="Não existem universidades cadastradas" var="u" paginator="true" paginatorAlwaysVisible="false" rows="10"
+				style="text-align:center" reflow="true" tableStyleClass="ui-table-columntoggle" selectionMode="single" selection="#{universidadeController.universidadeSelecionada}" rowKey="#{u.id}">
+					<p:ajax event="rowSelect" listener="#{universidadeController.onRowSelectUniversidade}" update="formUniversidade" resetValues="true" />
+					<p:column priority="1">
+						<f:facet name="header">
+							Nome da Universidade
+						</f:facet>
+						#{u.nomeUniversidade}
+					</p:column>
+					<p:column priority="1">
+						<f:facet name="header">
+							Local
+						</f:facet>
+						#{u.local}
+					</p:column>				
+				</p:dataTable>
+				<br />
+				<p:divider />
+				<br />
+				<div class="ui-fluid" align="center">
+	           		<p:commandButton title="Universidade" value="Nova Universidade" icon="ui-icon-plus"
+	          	  	action="#{universidadeController.novaUniversidade}" update="formUniversidade" partialSubmit="true" process="@this" style="width:160px"/>
+	            </div>	
+	          	<br />
+	          	<div class="ui-fluid">
+        	  		<p:panel id="dadosUniversidade" header="Cadastro da Universidade">
+	          			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-6">
+	          				<p:column>
+								 <h:outputText value="Nome da Universidade (PT-BR):"/>
+								 <p:inputText label="nomeUniversidade" value="#{universidadeController.universidade.nomeUniversidade}" required="true" requiredMessage="Informe o nome da universidade."
+								 converter="#{trimStringConverter}">
+								 	<p:ajax process="@this" update="descricao, local" event="blur" listener="#{universidadeController.buscarUniversidade}"/>
+								 </p:inputText>
+							</p:column>	
+							<p:column>
+								 <h:outputText value="Local:"/>
+								 <p:inputText label="local" value="#{universidadeController.universidade.local}" converter="#{trimStringConverter}" id="local"/>
+							</p:column>         				
+	          			</p:panelGrid>
+	          			<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+	          				<p:column>
+								 <h:outputText value="Descrição:"/>
+								 <p:inputTextarea value="#{universidadeController.universidade.descricaoUniversidade}" readonly="true" autoResize="true" converter="#{trimStringConverter}" id="descricao">
+								 </p:inputTextarea>
+							</p:column>
+	          			</p:panelGrid>
+	          			<br />
+	          			<p:growl id="mensagemSalvar" showDetail="true" />
+						<div class="ui-fluid" align="center">
+							<p:commandButton id="universidadeSalvar" value="Salvar" icon="ui-icon-disk"
+							 action="#{universidadeController.salvarUniversidade}"
+							 update="formUniversidade" style="width:100px"/>						
+					     	<p:commandButton id="universidadeCancelar" value="Cancelar" icon="ui-icon-close"
+					     	 action="#{universidadeController.cancelarUniversidade}"
+							 update="formUniversidade" partialSubmit="true" process="@this" style="width:100px"/>
+						</div>    
+	          		</p:panel>	          		      		
+	          	</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
