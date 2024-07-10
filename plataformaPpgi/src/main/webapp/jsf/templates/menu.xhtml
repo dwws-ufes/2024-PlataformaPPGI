@@ -6,23 +6,26 @@
      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
+		<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 		<p:menubar autoDisplay="false">
 
 			<p:menuitem value="Página Inicial" outcome="/jsf/inicio" icon="fa fa-home"/>
 			
-			<p:menuitem value="Usuários" outcome="/jsf/usuario/usuario" icon="fa fa-user" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			<p:menuitem value="Usuários" outcome="/jsf/usuario/usuario" icon="fa fa-users" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Pesquisador" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-user" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			<p:menuitem value="Pesquisador" outcome="/jsf/pesquisador/pesquisador" icon="fa fa-chalkboard-teacher" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Projeto" outcome="/jsf/projeto/projeto" icon="fa fa-book" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			<p:menuitem value="Projeto" outcome="/jsf/projeto/projeto" icon="fa fa-folder" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
-			<p:menuitem value="Produção Acadêmica" outcome="/jsf/producaoAcademica/producaoAcademica" icon="fa fa-newspaper-o" 
-			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : sessionScope.tipoUsuario eq 'Pesquisador' ? 'true' : 'false'}"/>
+			<p:submenu label="Produção Acadêmica" icon="fa fa-book-open" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}">
+				<p:menuitem value="Cadastro de Produção Acadêmica" outcome="/jsf/producaoAcademica/producaoAcademica" icon="fa fa-book-open" 
+				rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : sessionScope.tipoUsuario eq 'Pesquisador' ? 'true' : 'false'}"/>			
+				<p:menuitem value="Homologar Produção Acadêmica" outcome="/jsf/producaoAcademica/homologarProducao" icon="fa fa-book-open" 
+				rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			</p:submenu>
 			
-			<p:menuitem value="Homologar Produção Acadêmica" outcome="/jsf/producaoAcademica/homologarProducao" icon="fa fa-newspaper-o" 
-			rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
-			
-			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-newspaper-o" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
+			<p:menuitem value="Áreas de Conhecimento" outcome="/jsf/areaConhecimento/areaConhecimento" icon="fa fa-brain" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
 			<p:menuitem value="Universidades" outcome="/jsf/universidade/universidade" icon="fa fa-university" rendered="#{sessionScope.tipoUsuario eq 'Administrador' ? 'true' : 'false'}"/>
 			
