@@ -19,19 +19,15 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import br.ufes.inf.ppgi.plataformaPpgi.domain.PesquisadorProducaoAcademica;
 import br.ufes.inf.ppgi.plataformaPpgi.domain.ProducaoAcademica;
-import br.ufes.inf.ppgi.plataformaPpgi.persistence.GenericDAO;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.PesquisadorProducaoAcademicaDAO;
 import br.ufes.inf.ppgi.plataformaPpgi.persistence.ProducaoAcademicaDAO;
 
 @WebServlet(urlPatterns = { "/rdf/producaoPesquisador" })
-@Service
 public class PesquisadoresProducaoRdfServlet extends HttpServlet {
 
 	/**
@@ -83,7 +79,7 @@ public class PesquisadoresProducaoRdfServlet extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	resp.setContentType("text/xml");
+		resp.setContentType("text/xml");
 		listaProducaoAcademica = producaoAcademicaDAO.recuperarTodos();
 		for(ProducaoAcademica producao : listaProducaoAcademica) {
 			producao.setListaPesquisadorProducaoAcademica(pesquisadorProducaoAcademicaDAO.recuperarPorProducaoAcademica(producao));
@@ -98,16 +94,21 @@ public class PesquisadoresProducaoRdfServlet extends HttpServlet {
 		Resource grProducao = ResourceFactory.createResource(grNS + "Produção");
 		Resource grPesquisador = ResourceFactory.createResource(grNS + "Pesquisador");
 		Property grPossuiPesquisador = ResourceFactory.createProperty(grNS + "grPossuiPesquisador");
+		Property grPapelPesquisador = ResourceFactory.createProperty(grNS + "PapelPesquisador");
+		Property grNome = ResourceFactory.createProperty(grNS + "NomePesquisador");
+		Property grTituloProducao = ResourceFactory.createProperty(grNS + "TítuloProdução");
+		Property grDescricaoProducao = ResourceFactory.createProperty(grNS + "DescriçãoProdução");
+		Property grTipoProducao = ResourceFactory.createProperty(grNS + "TipoProdução");
 		
 		for(ProducaoAcademica producao : listaProducaoAcademica) {
 			for(PesquisadorProducaoAcademica pesquisadorProducao : producao.getListaPesquisadorProducaoAcademica()) {
 				model.createResource(myNS + producao.getId())
 				.addProperty(RDF.type, grProducao)
-				.addProperty(RDFS.label, producao.getTituloProducao())
-				.addProperty(RDFS.label, producao.getDescricaoProducaoAcademica())
-				.addProperty(RDFS.label, producao.getTipoProducaoAcademica().getNomeTipoProducaoAcademica())
+				.addProperty(grTituloProducao, producao.getTituloProducao())
+				.addProperty(grDescricaoProducao, producao.getDescricaoProducaoAcademica())
+				.addProperty(grTipoProducao, producao.getTipoProducaoAcademica().getNomeTipoProducaoAcademica())
 				.addProperty(grPossuiPesquisador, model.createResource().addProperty(RDF.type, grPesquisador)
-				.addProperty(RDFS.label, pesquisadorProducao.getPesquisador().getPessoa().getNomePessoa()).addProperty(RDFS.label, pesquisadorProducao.getPapelPesquisador().getNomePapel()));
+				.addProperty(grNome, pesquisadorProducao.getPesquisador().getPessoa().getNomePessoa()).addProperty(grPapelPesquisador, pesquisadorProducao.getPapelPesquisador().getNomePapel()));
 			}
 		}
 		
